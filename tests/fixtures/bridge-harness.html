@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Bridge harness</title></head>
+<body>
+<script type="module">
+  import { injectBridge } from '/src/core.js';
+
+  window.__msgs = [];
+  window.__ready = false;
+
+  const params = new URLSearchParams(location.search);
+  const name = params.get('deck') ?? 'deck-3slides.html';
+  const deckPath = name.startsWith('/') ? name : '/tests/fixtures/' + name;
+
+  const [deckHtml, bridgeSource] = await Promise.all([
+    fetch(deckPath).then((r) => r.text()),
+    fetch('/src/bridge.js').then((r) => r.text()),
+  ]);
+
+  const frame = document.createElement('iframe');
+  frame.id = 'deck-frame';
+  frame.sandbox = 'allow-scripts';
+  document.body.appendChild(frame);
+
+  window.__send = (payload) => {
+    frame.contentWindow.postMessage({ type: 'presenter:cmd', ...payload }, '*');
+  };
+
+  window.addEventListener('message', (event) => {
+    window.__msgs.push({ ...event.data, __origin: event.origin });
+    if (event.data && event.data.type === 'presenter:ready') window.__ready = true;
+  });
+
+  frame.src = URL.createObjectURL(
+    new Blob([injectBridge(deckHtml, bridgeSource)], { type: 'text/html' })
+  );
+</script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0c0e">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="A local, read-only stage for HTML decks by Utharam.">
+  <title>HTML Presenter</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="/icons/icon.svg">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wordmark">
+      <h1>Presenter</h1>
+      <p>Your decks, pinned and ready.</p>
+    </div>
+    <div class="actions">
+      <button type="button" id="add-deck-btn" class="btn btn-primary">
+        <svg class="btn-icon" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1v12M1 7h12"/></svg>
+        Add deck
+      </button>
+      <button type="button" id="import-btn" class="btn">
+        <svg class="btn-icon" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1v8M7 9 4 6M7 9l3-3M1 11v2h12v-2"/></svg>
+        Import
+      </button>
+      <button type="button" id="export-btn" class="btn">
+        <svg class="btn-icon" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 9V1M7 1 4 4M7 1l3 3M1 11v2h12v-2"/></svg>
+        Export
+      </button>
+      <button type="button" id="tour-btn" class="btn">
+        <svg class="btn-icon" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="6"/><path d="M6 4.6 10 7l-4 2.4z" fill="currentColor" stroke="none"/></svg>
+        Tour
+      </button>
+      <button type="button" id="guide-btn" class="btn">
+        <svg class="btn-icon" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="6"/><path d="M5.2 5.2a1.8 1.8 0 1 1 2.6 1.6c-.6.3-.8.6-.8 1.2"/><circle cx="7" cy="10.5" r=".7" fill="currentColor" stroke="none"/></svg>
+        Guide
+      </button>
+      <input type="file" id="import-file" accept="application/json,.json" hidden>
+    </div>
+  </header>
+
+  <div id="storage-banner" role="status" hidden>Storage unavailable — changes will not survive a refresh.</div>
+
+  <main id="library-view">
+    <div class="start-grid">
+      <section id="front-page" class="start-new" aria-labelledby="front-title">
+        <button type="button" id="front-add-btn" class="new-deck">
+          <span class="new-deck-visual" aria-hidden="true">
+            <span class="new-deck-slide"><span class="new-deck-plus">+</span></span>
+            <span class="new-deck-format">16:9 · HTML</span>
+          </span>
+          <span class="new-deck-copy">
+            <span id="front-title" class="new-deck-title">New deck</span>
+            <span class="new-deck-sub">Paste HTML or drop an .html file.</span>
+            <span class="new-deck-cta">Create a deck <span aria-hidden="true">→</span></span>
+          </span>
+        </button>
+        <p class="start-hint">Copy the HTML from your presentation and paste it here, or drop the file anywhere on this page.</p>
+      </section>
+
+      <section id="library-section" class="start-recent" aria-labelledby="library-title">
+        <header class="recent-head">
+          <h2 id="library-title">Recent decks</h2>
+          <span id="deck-count" class="library-count">0 decks</span>
+        </header>
+        <div id="deck-grid" class="deck-list">
+          <div id="empty-state" class="empty-deck">
+            <p>No decks yet.</p>
+            <p>Paste HTML or drop a file to start.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="app-footer">
+      <span class="footer-brand"><span class="brand-mark" aria-hidden="true"></span> an Utharam tool</span>
+      <span class="footer-links">
+        <button type="button" id="install-btn" class="btn btn-quiet" hidden>Install app</button>
+        <a class="brand-link" href="https://utharam.in" target="_blank" rel="noopener noreferrer">utharam.in</a>
+      </span>
+    </footer>
+  </main>
+
+  <dialog id="import-dialog" aria-labelledby="import-dialog-title">
+    <span class="sheet-tape sheet-tape-left" aria-hidden="true"></span>
+    <span class="sheet-tape sheet-tape-right" aria-hidden="true"></span>
+    <form id="import-form" novalidate>
+      <header class="sheet-head">
+        <h2 id="import-dialog-title">Add a deck</h2>
+        <p class="sheet-sub">Paste the whole file, or drop an .html deck.</p>
+      </header>
+
+      <div id="deck-dropzone" class="dropzone">
+        <span class="drop-title">Drop an .html deck here</span>
+        <span class="drop-sub">or</span>
+        <label class="file-pick" for="deck-file">choose a file</label>
+        <input type="file" id="deck-file" accept="text/html,.html,.htm" hidden>
+      </div>
+
+      <label class="field field-grow">
+        <span class="field-label">Deck HTML</span>
+        <textarea id="deck-html" class="ruled" spellcheck="false" placeholder="<!doctype html> …"></textarea>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Title</span>
+        <input id="deck-title" type="text" maxlength="120" placeholder="Pulled from the deck's title">
+      </label>
+
+      <p id="import-error" class="form-error" role="alert"></p>
+
+      <div class="sheet-actions">
+        <button type="button" id="cancel-import-btn" class="btn">Cancel</button>
+        <button type="submit" id="save-deck-btn" class="btn btn-primary">Save deck</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="guide-dialog" aria-labelledby="guide-title">
+    <span class="sheet-tape sheet-tape-left" aria-hidden="true"></span>
+    <span class="sheet-tape sheet-tape-right" aria-hidden="true"></span>
+    <header class="guide-head">
+      <h2 id="guide-title">How to use Presenter</h2>
+      <button type="button" id="guide-close-btn" class="btn btn-quiet" aria-label="Close guide">Close</button>
+    </header>
+    <div class="guide-grid">
+      <ol class="guide-steps">
+        <li><span class="guide-no">1</span><span><strong>Drop a deck.</strong> Paste, choose, or drag an HTML file anywhere on the page.</span></li>
+        <li><span class="guide-no">2</span><span><strong>Present.</strong> Click a Recent decks row to open it full-screen.</span></li>
+        <li><span class="guide-no">3</span><span><strong>Move.</strong> <kbd>←</kbd> <kbd>→</kbd> or <kbd>Space</kbd>; <kbd>Home</kbd> <kbd>End</kbd> jump; <kbd>F</kbd> fullscreen.</span></li>
+        <li><span class="guide-no">4</span><span><strong>Notes &amp; help.</strong> <kbd>N</kbd> notes; <kbd>?</kbd> all shortcuts; <kbd>Esc</kbd> closes notes, then exits.</span></li>
+        <li><span class="guide-no">5</span><span><strong>Zoom &amp; pan.</strong> Use <kbd>−</kbd> <kbd>+</kbd> in the status bar; hold <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> and drag to pan while zoomed.</span></li>
+      </ol>
+      <aside class="guide-keys" aria-label="Key reference">
+        <h3>Keys</h3>
+        <dl>
+          <dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Previous / next</dd>
+          <dt><kbd>F</kbd></dt><dd>Fullscreen</dd>
+          <dt><kbd>N</kbd></dt><dd>Notes</dd>
+          <dt><kbd>?</kbd></dt><dd>All shortcuts</dd>
+          <dt><kbd>Esc</kbd></dt><dd>Close, then exit</dd>
+          <dt><kbd>Ctrl</kbd> + drag</dt><dd>Pan while zoomed</dd>
+        </dl>
+      </aside>
+    </div>
+    <div class="guide-make">
+      <h3>Make a deck with your LLM</h3>
+      <p>Ask your LLM of choice for one self-contained HTML file with a fixed 1920×1080 stage, one <code>.slide</code> per page, inline CSS/JS, and arrow-key navigation. Drop the file here when it is ready.</p>
+      <details>
+        <summary>Prompt to copy</summary>
+        <code>Create a single self-contained HTML presentation about [topic]. Use a fixed 1920×1080 stage scaled to the viewport, one .slide per page, inline CSS/JS, arrow-key navigation, and no build step or external app dependencies.</code>
+      </details>
+    </div>
+  </dialog>
+
+  <section id="present-view" class="present-view" hidden aria-label="Presentation">
+    <div id="present-viewport" class="present-viewport" tabindex="-1">
+      <iframe id="present-frame" class="present-frame" sandbox="allow-scripts" title="Deck presentation"></iframe>
+      <div id="pan-overlay" class="pan-overlay" aria-hidden="true" hidden></div>
+      <div id="progress" class="progress" aria-hidden="true"><div id="progress-fill" class="progress-fill"></div></div>
+
+      <footer class="present-status">
+        <div class="status-left">
+          <span id="slide-counter" class="slide-counter" aria-live="polite" aria-atomic="true">1 / 1</span>
+          <span id="note-badge" class="note-badge" hidden>NOTE</span>
+        </div>
+        <div class="status-right">
+          <div class="zoom-controls" aria-label="Deck zoom. Hold Ctrl and drag the deck to pan.">
+            <button type="button" id="zoom-out-btn" class="btn btn-quiet" aria-label="Zoom out">−</button>
+            <button type="button" id="zoom-level" class="btn btn-quiet zoom-level" aria-label="Reset zoom to 100%" title="Ctrl+drag the deck to pan when zoomed">100%</button>
+            <button type="button" id="zoom-in-btn" class="btn btn-quiet" aria-label="Zoom in">+</button>
+          </div>
+          <button type="button" id="shortcuts-btn" class="btn btn-quiet" aria-label="Keyboard shortcuts">?</button>
+          <button type="button" id="exit-present-btn" class="btn btn-quiet">Exit</button>
+        </div>
+      </footer>
+
+      <section id="notes-panel" class="notes-panel" role="dialog" aria-label="Slide notes" aria-hidden="true" hidden>
+        <span class="notes-tape notes-tape-left" aria-hidden="true"></span>
+        <span class="notes-tape notes-tape-right" aria-hidden="true"></span>
+        <header class="notes-head">
+          <span id="notes-label" class="notes-label">Slide 1</span>
+          <span class="notes-hint">Session only</span>
+        </header>
+        <textarea id="notes-textarea" class="notes-textarea" spellcheck="false" aria-label="Notes for current slide"></textarea>
+      </section>
+    </div>
+  </section>
+
+  <dialog id="shortcuts-dialog" aria-labelledby="shortcuts-title">
+    <span class="sheet-tape sheet-tape-left" aria-hidden="true"></span>
+    <span class="sheet-tape sheet-tape-right" aria-hidden="true"></span>
+    <h2 id="shortcuts-title">Keyboard</h2>
+    <dl class="keys">
+      <dt><kbd>→</kbd> <kbd>↓</kbd> <kbd>Space</kbd> <kbd>PgDn</kbd></dt><dd>Next slide</dd>
+      <dt><kbd>←</kbd> <kbd>↑</kbd> <kbd>PgUp</kbd></dt><dd>Previous slide</dd>
+      <dt><kbd>Home</kbd> <kbd>End</kbd></dt><dd>First / last slide</dd>
+      <dt><kbd>F</kbd></dt><dd>Toggle fullscreen</dd>
+      <dt><kbd>N</kbd></dt><dd>Toggle notes</dd>
+      <dt><kbd>?</kbd></dt><dd>Toggle this panel</dd>
+      <dt><kbd>Esc</kbd></dt><dd>Close notes, then exit</dd>
+    </dl>
+  </dialog>
+
+  <div id="toast-region" class="toast-region" role="status" aria-live="polite"></div>
+
+  <div id="drop-overlay" class="drop-overlay" hidden aria-hidden="true">
+    <div class="drop-card">
+      <span class="drop-plus">+</span>
+      <strong>Drop to add a deck</strong>
+      <span>Release an .html file to load it into the new-deck editor.</span>
+    </div>
+  </div>
+
+  <script type="module" src="/src/app.js"></script>
+</body>
+</html>
+

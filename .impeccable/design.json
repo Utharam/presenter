@@ -1,0 +1,500 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-02T00:00:00.000Z",
+  "title": "Design System: HTML Presenter",
+  "extensions": {
+    "colorMeta": {
+      "work-light": {
+        "role": "primary",
+        "displayName": "Work-Light Gold",
+        "canonical": "#e2b04a",
+        "tonalRamp": [
+          "#2b210b",
+          "#4a3812",
+          "#6b5019",
+          "#8d6820",
+          "#b0852a",
+          "#c99a3a",
+          "#e2b04a",
+          "#f0d08a"
+        ]
+      },
+      "cue-red": {
+        "role": "secondary",
+        "displayName": "Cue Red",
+        "canonical": "#e5645f",
+        "tonalRamp": [
+          "#2b0f0e",
+          "#4a1a18",
+          "#6b2522",
+          "#8d302c",
+          "#b03b36",
+          "#c94b45",
+          "#e5645f",
+          "#f0a19d"
+        ]
+      },
+      "drafting-ground": {
+        "role": "neutral",
+        "displayName": "Drafting Ground",
+        "canonical": "#0b0c0e",
+        "tonalRamp": [
+          "#0b0c0e",
+          "#14161a",
+          "#1b1e24",
+          "#262a31",
+          "#3a3f48",
+          "#5a606a",
+          "#9aa1ad",
+          "#f2f3f5"
+        ]
+      },
+      "frame-surface": {
+        "role": "neutral",
+        "displayName": "Frame Surface",
+        "canonical": "#14161a",
+        "tonalRamp": [
+          "#0b0c0e",
+          "#14161a",
+          "#1b1e24",
+          "#262a31",
+          "#3a3f48",
+          "#5a606a",
+          "#9aa1ad",
+          "#f2f3f5"
+        ]
+      },
+      "raised-frame": {
+        "role": "neutral",
+        "displayName": "Raised Frame",
+        "canonical": "#1b1e24",
+        "tonalRamp": [
+          "#0b0c0e",
+          "#14161a",
+          "#1b1e24",
+          "#262a31",
+          "#3a3f48",
+          "#5a606a",
+          "#9aa1ad",
+          "#f2f3f5"
+        ]
+      },
+      "graphite-border": {
+        "role": "neutral",
+        "displayName": "Graphite Border",
+        "canonical": "#262a31",
+        "tonalRamp": [
+          "#0b0c0e",
+          "#14161a",
+          "#1b1e24",
+          "#262a31",
+          "#3a3f48",
+          "#5a606a",
+          "#9aa1ad",
+          "#f2f3f5"
+        ]
+      },
+      "chalk-text": {
+        "role": "neutral",
+        "displayName": "Chalk Text",
+        "canonical": "#f2f3f5",
+        "tonalRamp": [
+          "#0b0c0e",
+          "#14161a",
+          "#1b1e24",
+          "#262a31",
+          "#3a3f48",
+          "#5a606a",
+          "#9aa1ad",
+          "#f2f3f5"
+        ]
+      },
+      "pencil-muted": {
+        "role": "neutral",
+        "displayName": "Pencil Muted",
+        "canonical": "#9aa1ad",
+        "tonalRamp": [
+          "#0b0c0e",
+          "#14161a",
+          "#1b1e24",
+          "#262a31",
+          "#3a3f48",
+          "#5a606a",
+          "#9aa1ad",
+          "#f2f3f5"
+        ]
+      },
+      "stage-black": {
+        "role": "neutral",
+        "displayName": "Stage Black",
+        "canonical": "#000000",
+        "tonalRamp": [
+          "#000000",
+          "#0b0c0e",
+          "#14161a",
+          "#1b1e24",
+          "#262a31",
+          "#5a606a",
+          "#9aa1ad",
+          "#f2f3f5"
+        ]
+      },
+      "dropzone-ground": {
+        "role": "neutral",
+        "displayName": "Dropzone Ground",
+        "canonical": "#0f1115",
+        "tonalRamp": [
+          "#000000",
+          "#0b0c0e",
+          "#14161a",
+          "#1b1e24",
+          "#262a31",
+          "#5a606a",
+          "#9aa1ad",
+          "#f2f3f5"
+        ]
+      },
+      "scrim": {
+        "role": "neutral",
+        "displayName": "Scrim",
+        "canonical": "rgba(4, 5, 6, 0.74)",
+        "tonalRamp": [
+          "rgba(0,0,0,0.15)",
+          "rgba(0,0,0,0.25)",
+          "rgba(0,0,0,0.35)",
+          "rgba(0,0,0,0.45)",
+          "rgba(0,0,0,0.55)",
+          "rgba(0,0,0,0.65)",
+          "rgba(0,0,0,0.74)",
+          "rgba(0,0,0,0.85)"
+        ]
+      },
+      "overlay-35": {
+        "role": "neutral",
+        "displayName": "Overlay 35",
+        "canonical": "rgba(0, 0, 0, 0.35)",
+        "tonalRamp": [
+          "rgba(0,0,0,0.1)",
+          "rgba(0,0,0,0.2)",
+          "rgba(0,0,0,0.3)",
+          "rgba(0,0,0,0.4)",
+          "rgba(0,0,0,0.5)",
+          "rgba(0,0,0,0.6)",
+          "rgba(0,0,0,0.7)",
+          "rgba(0,0,0,0.8)"
+        ]
+      },
+      "overlay-55": {
+        "role": "neutral",
+        "displayName": "Overlay 55",
+        "canonical": "rgba(0, 0, 0, 0.55)",
+        "tonalRamp": [
+          "rgba(0,0,0,0.1)",
+          "rgba(0,0,0,0.2)",
+          "rgba(0,0,0,0.3)",
+          "rgba(0,0,0,0.4)",
+          "rgba(0,0,0,0.5)",
+          "rgba(0,0,0,0.6)",
+          "rgba(0,0,0,0.7)",
+          "rgba(0,0,0,0.8)"
+        ]
+      },
+      "overlay-68": {
+        "role": "neutral",
+        "displayName": "Overlay 68",
+        "canonical": "rgba(0, 0, 0, 0.68)",
+        "tonalRamp": [
+          "rgba(0,0,0,0.1)",
+          "rgba(0,0,0,0.2)",
+          "rgba(0,0,0,0.3)",
+          "rgba(0,0,0,0.4)",
+          "rgba(0,0,0,0.5)",
+          "rgba(0,0,0,0.6)",
+          "rgba(0,0,0,0.7)",
+          "rgba(0,0,0,0.8)"
+        ]
+      },
+      "scrollbar": {
+        "role": "neutral",
+        "displayName": "Scrollbar Graphite",
+        "canonical": "#3a3f48",
+        "tonalRamp": [
+          "#0b0c0e",
+          "#14161a",
+          "#1b1e24",
+          "#262a31",
+          "#3a3f48",
+          "#4a505b",
+          "#6b7280",
+          "#9aa1ad"
+        ]
+      },
+      "scrollbar-hover": {
+        "role": "neutral",
+        "displayName": "Scrollbar Graphite Hover",
+        "canonical": "#4a505b",
+        "tonalRamp": [
+          "#0b0c0e",
+          "#14161a",
+          "#1b1e24",
+          "#262a31",
+          "#3a3f48",
+          "#4a505b",
+          "#6b7280",
+          "#9aa1ad"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Title Block",
+        "purpose": "Wordmark only, with a registration cross."
+      },
+      "body": {
+        "displayName": "Working UI",
+        "purpose": "Supporting copy, controls, and notes."
+      },
+      "label": {
+        "displayName": "Measurement",
+        "purpose": "Frame numbers, metadata, counters, keycaps, field labels."
+      },
+      "hand": {
+        "displayName": "Marginalia",
+        "purpose": "Empty-state line and small annotations only."
+      },
+      "caption": {
+        "displayName": "caption",
+        "purpose": "Mono code in the deck textarea."
+      },
+      "micro": {
+        "displayName": "micro",
+        "purpose": "Quiet mono form copy."
+      },
+      "meta": {
+        "displayName": "meta",
+        "purpose": "Toast copy."
+      },
+      "control": {
+        "displayName": "control",
+        "purpose": "Button labels and file-pick links."
+      },
+      "sub": {
+        "displayName": "sub",
+        "purpose": "Sheet subtitles."
+      },
+      "hint": {
+        "displayName": "hint",
+        "purpose": "Empty-state hints and secondary prose."
+      },
+      "support": {
+        "displayName": "support",
+        "purpose": "Dropzone titles and key descriptions."
+      },
+      "lede": {
+        "displayName": "lede",
+        "purpose": "The wordmark supporting line."
+      },
+      "title-sm": {
+        "displayName": "title sm",
+        "purpose": "Deck titles on frames."
+      },
+      "title": {
+        "displayName": "title",
+        "purpose": "Short section headings."
+      },
+      "headline": {
+        "displayName": "headline",
+        "purpose": "Dialog titles."
+      },
+      "notes": {
+        "displayName": "notes",
+        "purpose": "The notes textarea, aligned to a 24px ruled baseline."
+      }
+    },
+    "shadows": [
+      {
+        "name": "frame-hover",
+        "value": "0 18px 42px rgba(0,0,0,0.38)",
+        "purpose": "Library frame lift on hover or focus-within."
+      },
+      {
+        "name": "dialog",
+        "value": "0 34px 90px rgba(0,0,0,0.62)",
+        "purpose": "Add sheet and shortcuts sheet over the library."
+      },
+      {
+        "name": "notes",
+        "value": "0 28px 74px rgba(0,0,0,0.68)",
+        "purpose": "Notes card over the black stage."
+      },
+      {
+        "name": "toast",
+        "value": "0 16px 40px rgba(0,0,0,0.42)",
+        "purpose": "Transient status above the library."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-standard",
+        "value": "160ms ease",
+        "purpose": "Hover, focus, and overlay state transitions."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "none",
+        "purpose": "prefers-reduced-motion disables all transitions and animations."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "stack",
+        "value": "760px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one gold action: Add deck, Add a deck, Save deck.",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\">Add deck</button>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; justify-content:center; min-height:34px; padding:8px 14px; border:1px solid rgba(226,176,74,0.55); border-radius:6px; background:rgba(226,176,74,0.07); color:#e2b04a; font:inherit; font-size:0.85rem; font-weight:600; line-height:1; cursor:pointer; transition:background 160ms ease,border-color 160ms ease,color 160ms ease,transform 160ms ease; } .ds-btn-primary:hover { background:rgba(226,176,74,0.13); border-color:#e2b04a; } .ds-btn-primary:active { transform:translateY(1px); } .ds-btn-primary:focus-visible { outline:2px solid #e2b04a; outline-offset:2px; }"
+    },
+    {
+      "name": "Default Button",
+      "kind": "button",
+      "refersTo": "button-default",
+      "description": "Quiet outlined actions: Import, Export, Cancel, Save.",
+      "html": "<button class=\"ds-btn\" type=\"button\">Import</button>",
+      "css": ".ds-btn { display:inline-flex; align-items:center; justify-content:center; min-height:34px; padding:8px 14px; border:1px solid #262a31; border-radius:4px; background:transparent; color:#f2f3f5; font:inherit; font-size:0.85rem; font-weight:600; line-height:1; cursor:pointer; transition:background 160ms ease,border-color 160ms ease,color 160ms ease,transform 160ms ease; } .ds-btn:hover { background:rgba(242,243,245,0.045); border-color:#3a3f48; } .ds-btn:active { transform:translateY(1px); } .ds-btn:focus-visible { outline:2px solid #e2b04a; outline-offset:2px; }"
+    },
+    {
+      "name": "Deck HTML Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "The ruled mono paste target in the add sheet.",
+      "html": "<textarea class=\"ds-ruled\" spellcheck=\"false\" placeholder=\"<!doctype html> …\"></textarea>",
+      "css": ".ds-ruled { width:100%; min-height:228px; padding:10px 12px; border:1px solid #262a31; border-radius:6px; background-color:#0b0c0e; background-image:linear-gradient(0deg,transparent 0 23px,rgba(242,243,245,0.065) 23px 24px); background-size:100% 24px; background-attachment:local; color:#f2f3f5; font-family:ui-monospace,Consolas,monospace; font-size:0.78rem; line-height:24px; resize:vertical; tab-size:2; white-space:pre; overflow-x:auto; } .ds-ruled:focus { border-color:rgba(226,176,74,0.6); outline:2px solid #e2b04a; outline-offset:2px; }"
+    },
+    {
+      "name": "Add Sheet Dialog",
+      "kind": "custom",
+      "description": "A taped storyboard sheet for pasting or dropping a deck.",
+      "html": "<dialog class=\"ds-sheet\" open><span class=\"ds-tape ds-tape-left\"></span><span class=\"ds-tape ds-tape-right\"></span><h2>Add a deck</h2><p>Paste the whole file, or drop an .html deck.</p><div class=\"ds-drop\">Drop an .html deck here <span>or</span> <u>choose a file</u></div></dialog>",
+      "css": ".ds-sheet { position:relative; width:min(720px,calc(100vw - 56px)); padding:30px 30px 26px; border:1px solid #262a31; border-radius:10px; background:#14161a; color:#f2f3f5; box-shadow:0 34px 90px rgba(0,0,0,0.62); font-family:system-ui,'Segoe UI',sans-serif; } .ds-sheet h2 { margin:0 0 8px; font-size:1.6rem; font-weight:600; letter-spacing:-0.025em; } .ds-sheet p { margin:0 0 20px; color:#9aa1ad; font-size:0.87rem; } .ds-tape { position:absolute; top:-10px; width:96px; height:21px; border:1px solid rgba(226,176,74,0.25); background:rgba(226,176,74,0.16); transform:rotate(-2deg); } .ds-tape-left { left:12%; } .ds-tape-right { right:12%; transform:rotate(2.5deg); } .ds-drop { padding:17px 18px; border:1px dashed rgba(242,243,245,0.25); border-radius:6px; background:#0f1115; font-size:0.9rem; font-weight:600; } .ds-drop span { color:#9aa1ad; font-family:ui-monospace,Consolas,monospace; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; margin:0 6px; } .ds-drop u { color:#e2b04a; text-decoration-style:dashed; text-underline-offset:4px; }"
+    },
+    {
+      "name": "Deck Notes Card",
+      "kind": "custom",
+      "description": "A taped index card for the current slide's session note.",
+      "html": "<section class=\"ds-notes\"><span class=\"ds-note-tape ds-note-tape-left\"></span><span class=\"ds-note-tape ds-note-tape-right\"></span><header><span class=\"ds-notes-label\">Slide 1</span><span class=\"ds-notes-hint\">Session only</span></header><textarea class=\"ds-notes-area\" aria-label=\"Notes for current slide\"></textarea></section>",
+      "css": ".ds-notes { position:relative; width:min(840px,calc(100vw - 112px)); padding:16px 20px 20px; border:1px solid #262a31; border-radius:3px; background-color:#1b1e24; background-image:linear-gradient(180deg,rgba(242,243,245,0.025),transparent 38%); box-shadow:0 28px 74px rgba(0,0,0,0.68); font-family:system-ui,'Segoe UI',sans-serif; } .ds-notes::before { content:\"\"; position:absolute; top:46px; bottom:20px; left:42px; width:1px; background:rgba(226,176,74,0.42); } .ds-note-tape { position:absolute; top:-9px; width:92px; height:19px; border:1px solid rgba(226,176,74,0.32); background:rgba(226,176,74,0.2); transform:rotate(-2.2deg); } .ds-note-tape-left { left:9%; } .ds-note-tape-right { right:9%; transform:rotate(2.4deg); } .ds-notes header { display:flex; align-items:baseline; gap:14px; margin-bottom:6px; padding-left:34px; } .ds-notes-label { color:#e2b04a; font-family:ui-monospace,Consolas,monospace; font-size:0.72rem; letter-spacing:0.15em; } .ds-notes-hint { margin-left:auto; color:#9aa1ad; font-family:'Segoe Print','Ink Free',cursive; font-size:0.88rem; } .ds-notes-area { display:block; width:100%; min-height:144px; padding:2px 0 0 34px; border:0; background-color:transparent; background-image:linear-gradient(0deg,transparent 0 23px,rgba(242,243,245,0.08) 23px 24px); background-size:100% 24px; background-attachment:local; color:#f2f3f5; caret-color:#e2b04a; font-family:system-ui,'Segoe UI',sans-serif; font-size:15px; line-height:1.6; resize:none; } .ds-notes-area:focus { outline:2px solid rgba(226,176,74,0.55); outline-offset:2px; }"
+    },
+    {
+      "name": "Presentation Status",
+      "kind": "custom",
+      "description": "The only chrome allowed over the black deck stage.",
+      "html": "<footer class=\"ds-status\"><span class=\"ds-counter\">1 / 3</span><span class=\"ds-note-badge\">NOTE</span><span class=\"ds-status-actions\"><button>?</button><button>Exit</button></span></footer>",
+      "css": ".ds-status { display:flex; align-items:center; justify-content:space-between; padding:0 24px 18px; color:#9aa1ad; font-family:ui-monospace,Consolas,monospace; } .ds-counter { padding:3px 7px; border:1px solid rgba(242,243,245,0.1); border-radius:3px; background:rgba(0,0,0,0.55); color:#9aa1ad; font-size:0.72rem; letter-spacing:0.12em; } .ds-note-badge { padding:4px 7px 3px; border:1px solid rgba(226,176,74,0.45); border-radius:2px; background:rgba(0,0,0,0.55); color:#e2b04a; font-size:0.72rem; letter-spacing:0.16em; } .ds-status-actions { display:flex; gap:8px; } .ds-status-actions button { min-height:28px; padding:6px 9px; border:1px solid transparent; border-radius:4px; background:rgba(0,0,0,0.35); color:rgba(242,243,245,0.55); font-family:ui-monospace,Consolas,monospace; font-size:0.72rem; letter-spacing:0.06em; cursor:pointer; } .ds-status-actions button:hover { border-color:rgba(242,243,245,0.16); background:rgba(0,0,0,0.68); color:#f2f3f5; }"
+    },
+    {
+      "name": "Zoom Controls",
+      "kind": "custom",
+      "description": "Quiet status-bar controls that scale the rendered deck, not the app chrome; Ctrl+drag pans when zoomed.",
+      "html": "<div class=\"ds-zoom\"><button type=\"button\">−</button><button type=\"button\">100%</button><button type=\"button\">+</button></div>",
+      "css": ".ds-zoom { display:flex; align-items:center; gap:2px; font-family:ui-monospace,Consolas,monospace; } .ds-zoom button { min-height:26px; min-width:28px; padding:5px 7px; border:1px solid transparent; border-radius:4px; background:rgba(0,0,0,.35); color:rgba(242,243,245,.55); font:inherit; font-size:.72rem; cursor:pointer; } .ds-zoom button:nth-child(2) { min-width:50px; font-variant-numeric:tabular-nums; } .ds-zoom button:hover { border-color:rgba(242,243,245,.16); background:rgba(0,0,0,.68); color:#f2f3f5; }"
+    },
+    {
+      "name": "App Footer",
+      "kind": "custom",
+      "description": "The maker lockup and install affordance at the bottom of the start screen; the topbar stays product-only.",
+      "html": "<footer class=\"ds-footer\"><span class=\"ds-footer-brand\"><span class=\"ds-cross\"></span> an Utharam tool</span><span class=\"ds-footer-links\"><button type=\"button\">Install app</button><a href=\"https://utharam.in\" target=\"_blank\" rel=\"noopener noreferrer\">utharam.in</a></span></footer>",
+      "css": ".ds-footer { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:48px; padding-top:18px; border-top:1px solid #262a31; color:#9aa1ad; font-family:system-ui,\"Segoe UI\",sans-serif; font-size:.78rem; } .ds-footer-brand { display:inline-flex; align-items:center; gap:9px; } .ds-cross { flex:none; width:12px; height:12px; background:linear-gradient(#e2b04a,#e2b04a) center/1px 12px no-repeat, linear-gradient(#e2b04a,#e2b04a) center/12px 1px no-repeat; opacity:.85; } .ds-footer-links { display:inline-flex; align-items:center; gap:12px; } .ds-footer-links button { min-height:26px; padding:5px 8px; border:1px solid rgba(242,243,245,.12); border-radius:4px; background:transparent; color:#9aa1ad; font:inherit; font-size:.72rem; cursor:pointer; } .ds-footer-links button:hover { border-color:rgba(242,243,245,.2); color:#f2f3f5; } .ds-footer-links a { color:#9aa1ad; text-decoration:underline; text-decoration-style:dotted; text-decoration-color:rgba(154,161,173,.45); text-underline-offset:3px; } .ds-footer-links a:hover { color:#e2b04a; }"
+    },
+    {
+      "name": "Guide Dialog",
+      "kind": "custom",
+      "description": "The taped guide opened from the header Guide button: five steps, key reference, zoom/pan, and an LLM prompt.",
+      "html": "<dialog class=\"ds-guide\" open><span class=\"ds-tape ds-tape-left\"></span><span class=\"ds-tape ds-tape-right\"></span><header><h2>How to use Presenter</h2><button type=\"button\">Close</button></header><div class=\"ds-guide-grid\"><ol><li><b>1</b><span><strong>Drop a deck.</strong> Paste, choose, or drag an HTML file anywhere on the page.</span></li><li><b>2</b><span><strong>Present.</strong> Click a Recent decks row to open it full-screen.</span></li><li><b>3</b><span><strong>Move.</strong> ← → or Space; Home/End jump; F fullscreen.</span></li><li><b>4</b><span><strong>Notes & help.</strong> N notes; ? all shortcuts; Esc closes notes, then exits.</span></li><li><b>5</b><span><strong>Zoom & pan.</strong> Use − / + in the status bar; hold Ctrl/Cmd and drag to pan while zoomed.</span></li></ol><aside><h3>Keys</h3><dl><dt>← →</dt><dd>Previous / next</dd><dt>F</dt><dd>Fullscreen</dd><dt>N</dt><dd>Notes</dd><dt>?</dt><dd>All shortcuts</dd><dt>Esc</dt><dd>Close, then exit</dd><dt>Ctrl + drag</dt><dd>Pan while zoomed</dd></dl></aside></div><p class=\"ds-guide-note\"><strong>Make a deck with your LLM.</strong> Ask for one self-contained HTML file with a fixed 1920×1080 stage, one .slide per page, inline CSS/JS, and arrow-key navigation. Drop the file here.</p></dialog>",
+      "css": ".ds-guide { position:relative; width:min(800px,calc(100vw - 56px)); padding:30px 32px 32px; border:1px solid #262a31; border-radius:10px; background:#14161a; color:#f2f3f5; box-shadow:0 34px 90px rgba(0,0,0,.62); font-family:system-ui,\"Segoe UI\",sans-serif; } .ds-guide header { display:flex; align-items:baseline; justify-content:space-between; gap:18px; margin-bottom:24px; } .ds-guide h2 { margin:0; font-size:1.6rem; font-weight:600; letter-spacing:-.025em; } .ds-guide header button { padding:6px 9px; border:1px solid rgba(242,243,245,.12); border-radius:4px; background:transparent; color:#9aa1ad; font:inherit; font-size:.72rem; cursor:pointer; } .ds-guide-grid { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(220px,.85fr); gap:40px; align-items:start; } .ds-guide ol { display:grid; gap:16px; margin:0; padding:0; list-style:none; } .ds-guide li { display:grid; grid-template-columns:26px 1fr; gap:12px; color:#9aa1ad; font-size:.92rem; line-height:1.5; } .ds-guide li strong { color:#f2f3f5; } .ds-guide b { display:grid; place-items:center; width:24px; height:24px; border:1px solid rgba(226,176,74,.55); border-radius:50%; color:#e2b04a; font-family:ui-monospace,Consolas,monospace; font-size:.72rem; font-weight:400; } .ds-guide aside { padding-left:28px; border-left:1px dashed rgba(242,243,245,.14); } .ds-guide aside h3 { margin:0 0 14px; font-size:.95rem; } .ds-guide dl { display:grid; grid-template-columns:auto 1fr; gap:10px 16px; margin:0; } .ds-guide dt { color:#e2b04a; white-space:nowrap; } .ds-guide dd { margin:0; color:#9aa1ad; font-size:.88rem; } .ds-tape { position:absolute; top:-10px; width:96px; height:21px; border:1px solid rgba(226,176,74,.25); background:rgba(226,176,74,.16); } .ds-tape-left { left:12%; transform:rotate(-2deg); } .ds-tape-right { right:12%; transform:rotate(2.5deg); } .ds-guide-note { margin:30px 0 0; padding-top:22px; border-top:1px dashed rgba(242,243,245,.14); color:#9aa1ad; font-size:.88rem; line-height:1.55; } .ds-guide-note strong { color:#f2f3f5; }"
+    },
+    {
+      "name": "New Deck Tile",
+      "kind": "custom",
+      "description": "The blank 16:9 tile that opens the add sheet; the first thing on the start screen.",
+      "html": "<button class=\"ds-new\" type=\"button\"><span class=\"ds-new-visual\"><span class=\"ds-new-slide\"><span class=\"ds-new-plus\">+</span></span><span class=\"ds-new-format\">16:9 · HTML</span></span><span class=\"ds-new-copy\"><span class=\"ds-new-title\">New deck</span><span class=\"ds-new-sub\">Paste HTML or drop an .html file.</span><span class=\"ds-new-cta\">Create a deck →</span></span></button>",
+      "css": ".ds-new { display:block; width:100%; padding:0; overflow:hidden; border:1px solid #262a31; border-radius:10px; background:#14161a; color:#f2f3f5; font-family:system-ui,\"Segoe UI\",sans-serif; text-align:left; cursor:pointer; } .ds-new:hover { border-color:rgba(226,176,74,.45); background:#171a1f; } .ds-new-visual { position:relative; display:block; aspect-ratio:16/9; padding:18px; border-bottom:1px solid #262a31; background:#0f1115; } .ds-new-slide { position:absolute; inset:18px; display:grid; place-items:center; border:1px dashed rgba(242,243,245,.18); border-radius:6px; background:#0b0c0e; } .ds-new-plus { display:grid; place-items:center; width:62px; height:62px; border:1px solid rgba(226,176,74,.45); border-radius:50%; color:#e2b04a; font-size:1.6rem; font-weight:300; } .ds-new:hover .ds-new-plus { border-color:#e2b04a; background:rgba(226,176,74,.1); } .ds-new-format { position:absolute; top:12px; right:14px; color:#9aa1ad; font-family:ui-monospace,Consolas,monospace; font-size:.72rem; letter-spacing:.08em; } .ds-new-copy { display:block; padding:18px 20px 20px; } .ds-new-title { display:block; color:#f2f3f5; font-size:1.2rem; font-weight:600; } .ds-new-sub { display:block; margin-top:6px; color:#9aa1ad; font-size:.88rem; line-height:1.5; } .ds-new-cta { display:inline-flex; margin-top:14px; color:#e2b04a; font-size:.85rem; font-weight:600; }"
+    },
+    {
+      "name": "Recent Deck Row",
+      "kind": "card",
+      "description": "A scan-friendly recent-file row: thumbnail, frame number, title, metadata, Open and Delete.",
+      "html": "<article class=\"ds-row\"><span class=\"ds-thumb\"><span class=\"ds-frame-no\">FRAME 01</span><span class=\"ds-play\"></span></span><span class=\"ds-info\"><strong class=\"ds-row-title\">One-page brief</strong><span class=\"ds-row-meta\">Nov 3, 2026 · 67 B</span></span><span class=\"ds-row-actions\"><button>Open</button><button>Delete</button></span></article>",
+      "css": ".ds-row { display:grid; grid-template-columns:92px minmax(0,1fr) auto; gap:18px; align-items:center; padding:12px 14px; border:1px solid transparent; border-bottom-color:rgba(242,243,245,.06); border-radius:8px; background:transparent; cursor:pointer; } .ds-row:hover { background:#14161a; border-color:#262a31; } .ds-thumb { position:relative; width:92px; aspect-ratio:16/9; display:grid; place-items:center; border:1px solid #262a31; border-radius:4px; background:#0b0c0e; overflow:hidden; } .ds-thumb::before { content:\"\"; position:absolute; inset:8px; border:1px dashed rgba(242,243,245,.14); border-radius:3px; } .ds-frame-no { position:absolute; top:4px; left:6px; color:#e2b04a; font-family:ui-monospace,Consolas,monospace; font-size:.72rem; letter-spacing:.08em; } .ds-play { width:9px; height:12px; background:#e2b04a; clip-path:polygon(0 0,100% 50%,0 100%); opacity:.8; } .ds-info { min-width:0; } .ds-row-title { display:block; color:#f2f3f5; font-family:system-ui,\"Segoe UI\",sans-serif; font-size:1rem; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .ds-row-meta { display:block; margin-top:4px; color:#9aa1ad; font-family:ui-monospace,Consolas,monospace; font-size:.72rem; letter-spacing:.045em; } .ds-row-actions { display:flex; gap:8px; } .ds-row-actions button { padding:6px 10px; border:1px solid #262a31; border-radius:4px; background:transparent; color:#f2f3f5; font-family:system-ui,\"Segoe UI\",sans-serif; font-size:.78rem; font-weight:600; cursor:pointer; } .ds-row-actions button:hover { color:#e2b04a; border-color:rgba(226,176,74,.45); background:rgba(226,176,74,.07); }"
+    },
+    {
+      "name": "Drop Overlay",
+      "kind": "custom",
+      "description": "The full-window dashed target shown while dragging a file over the library.",
+      "html": "<div class=\"ds-drop\"><div class=\"ds-drop-card\"><span class=\"ds-drop-plus\">+</span><strong>Drop to add a deck</strong><span>Release an .html file to load it into the new-deck editor.</span></div></div>",
+      "css": ".ds-drop { position:fixed; inset:0; display:grid; place-items:center; border:2px dashed rgba(226,176,74,.6); background:rgba(7,8,10,.78); } .ds-drop-card { display:grid; justify-items:center; gap:8px; max-width:440px; padding:30px 46px; border:1px solid #262a31; border-radius:10px; background:#14161a; text-align:center; font-family:system-ui,\"Segoe UI\",sans-serif; } .ds-drop-plus { display:grid; place-items:center; width:54px; height:54px; border:1px solid rgba(226,176,74,.5); border-radius:50%; color:#e2b04a; font-size:1.6rem; } .ds-drop-card strong { color:#f2f3f5; font-size:1rem; } .ds-drop-card span:last-child { color:#9aa1ad; font-size:.88rem; line-height:1.5; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Rehearsal Storyboard",
+    "overview": "The app is a charcoal drafting table in a dark rehearsal room. Decks are storyboard frames pinned to the wall, numbered in the margin and held by tape; the only warm light is a single gold work lamp. The interface is deliberately closer to a director's cue sheet than to a dashboard: precise linework, honest materials, and handwritten marginalia only where a person would actually write a note. The system serves an Operate surface, so familiarity and keyboard speed outrank expression. The start screen is a clean, PowerPoint-like launcher: a blank 16:9 New deck tile and a Recent decks list. The storyboard world lives in the deck thumbnails, taped dialogs, notes card, and the built-in tour. The presentation stage itself is pure black and carries no decoration beyond the counter, the progress rule, and the notes card.",
+    "keyCharacteristics": [
+      "Charcoal ground with a faint 32px drafting grid and a restrained gold pool of light.",
+      "A blank 16:9 New deck tile and a scannable Recent decks list; frames, ticks, and tape belong to the thumbnails and dialogs, not the launcher.",
+      "Gold is a work light, not a brand wash: primary action, focus, progress, and frame numbers.",
+      "Handwriting is marginalia only; controls, labels, and data use system UI or mono.",
+      "Flat at rest; soft depth appears only for hover, dialogs, notes, and toasts.",
+      "The New deck tile persists when decks exist; the recent list grows beside it, and the guide/tour live in the header.",
+      "The topbar stays product-only; the Utharam maker lockup and install affordance live in the app footer."
+    ],
+    "rules": [
+      {
+        "name": "The One Work-Light Rule",
+        "body": "Gold is used on the primary action, focus, progress, frame numbers, and active notes cues. It never fills large surfaces or decorates inactive states; its rarity is what makes it read as light.",
+        "section": "Colors"
+      },
+      {
+        "name": "The No Warm Paper Rule",
+        "body": "The ground is charcoal, never cream. Tape and handwriting may suggest paper, but the surface stays dark so the app and the deck never compete.",
+        "section": "Colors"
+      },
+      {
+        "name": "The Handwriting-Is-Marginalia Rule",
+        "body": "The hand face appears only in the empty state, the notes hint, and similar annotations. It never sets a control, a label, a number, or a heading that must be scanned quickly.",
+        "section": "Typography"
+      },
+      {
+        "name": "The Mono-Is-Measurement Rule",
+        "body": "Mono is for frame numbers, dates, byte sizes, slide counters, keycaps, and field labels. It is not a costume for general body copy.",
+        "section": "Typography"
+      },
+      {
+        "name": "The Soft-Depth Rule",
+        "body": "Shadows are soft, offset, and state-driven. Hard offset block shadows and zero-offset colored halos do not belong to this world.",
+        "section": "Elevation"
+      }
+    ],
+    "dos": [
+      "Do keep the New deck tile and Recent decks list as the first view.\nDo accept a file drop anywhere on the library page and show the drop overlay.\nDo keep the presentation stage pure black; only the status bar and notes card may overlay the deck.",
+      "Do use the 2px gold focus ring on every real control, with 2px offset.",
+      "Do keep the hand face for marginalia and the mono face for measurements.",
+      "Do use soft, offset shadows only for state and overlays.",
+      "Do preserve the recent-row anatomy: 16:9 thumbnail, frame number, title, mono metadata, Open/Delete.",
+      "Do give every overlay a native dialog or labelled dialog role and restore focus on close."
+    ],
+    "donts": [
+      "Don't put a kicker or eyebrow above a heading.",
+      "Don't use gradient text, glass/blur decoration, colored side stripes, or hard offset shadows.",
+      "Don't use emoji or Unicode glyphs as icons; draw inline SVG.",
+      "Don't nest a card inside a card or turn the library into an icon + heading + text feature grid.",
+      "Don't use the hand face for controls, data, or body copy.",
+      "Don't let gold fill large surfaces or decorate inactive states."
+    ]
+  }
+}

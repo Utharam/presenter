@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Hand Hygiene - District Hospital, Kozhencherry (Protocol Edition)</title>
+
+    <!-- Google Fonts: Space Grotesk, JetBrains Mono, and Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           FIXED 16:9 STAGE: MANDATORY BASE STYLES
+           =========================================== */
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background: var(--stage-bg, #050811);
+            font-family: var(--font-body);
+            -webkit-font-smoothing: antialiased;
+            color: var(--text-body);
+        }
+
+        .deck-viewport {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            background: var(--stage-bg, #050811);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .deck-stage {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            transform-origin: 0 0;
+            background: var(--slide-bg, #0B132B);
+            background-image: 
+                radial-gradient(circle at 85% 15%, rgba(56, 189, 248, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 15% 85%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+                linear-gradient(rgba(36, 53, 102, 0.25) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(36, 53, 102, 0.25) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 75px 75px, 75px 75px;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--slide-bg, #0B132B);
+            padding: 64px 84px 50px 84px;
+            box-sizing: border-box;
+        }
+
+        .slide.active,
+        .slide.visible {
+            visibility: visible;
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        img,
+        video,
+        canvas,
+        svg {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        /* Presentation controls */
+        .deck-controls {
+            position: fixed;
+            left: 50%;
+            bottom: 22px;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(11, 19, 43, 0.92);
+            backdrop-filter: blur(14px);
+            padding: 8px 18px;
+            border-radius: 40px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .deck-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #38BDF8;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .deck-btn:hover {
+            background: #38BDF8;
+            color: #0B132B;
+            transform: scale(1.08);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+        }
+
+        .deck-counter {
+            color: #E2E8F0;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            min-width: 110px;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* Print styles */
+        @media print {
+            html,
+            body {
+                width: 1920px;
+                height: auto;
+                overflow: visible;
+                background: #0B132B;
+            }
+
+            .deck-viewport {
+                position: static;
+                overflow: visible;
+                background: #0B132B;
+            }
+
+            .deck-stage {
+                position: static;
+                width: auto;
+                height: auto;
+                transform: none !important;
+                background: none;
+            }
+
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px;
+                height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+
+            .slide:last-child {
+                break-after: auto;
+                page-break-after: auto;
+            }
+
+            .deck-controls,
+            .edit-toggle,
+            .edit-hotzone,
+            .slide-progress {
+                display: none !important;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+
+        /* ===========================================
+           THEME: HIGH-VISIBILITY OPERATIONAL PROTOCOL
+           =========================================== */
+        :root {
+            --stage-bg: #050811;
+            --slide-bg: #0B132B;
+            --surface-panel: #131C38;
+            --surface-card: #182346;
+            --surface-card-hover: #1E2B54;
+            
+            --text-heading: #FFFFFF;
+            --text-body: #CBD5E1;
+            --text-muted: #8496B3;
+            
+            --accent-cyan: #38BDF8;       /* Primary Clinical Cyan */
+            --accent-amber: #F59E0B;      /* Warning & Caution */
+            --accent-green: #10B981;      /* Kayakalp Compliant */
+            --accent-red: #EF4444;        /* Hazard / Danger */
+            
+            --border-line: #22315C;
+            --border-cyan: rgba(56, 189, 248, 0.35);
+            --border-amber: rgba(245, 158, 11, 0.4);
+            --border-green: rgba(16, 185, 129, 0.35);
+            
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-heading: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration-normal: 0.55s;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Slide layout structure */
+        .slide-inner {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        /* Top Header Chrome */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .sys-code-badge {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-amber);
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            padding: 6px 14px;
+            border-radius: 6px;
+            letter-spacing: 0.8px;
+        }
+
+        .header-titles h2 {
+            font-family: var(--font-display);
+            font-size: 21px;
+            font-weight: 700;
+            color: #FFFFFF;
+            letter-spacing: -0.3px;
+        }
+
+        .header-titles p {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .header-tags {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .tag-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border: 1px solid var(--border-line);
+            background: var(--surface-panel);
+            color: var(--text-body);
+        }
+
+        .tag-kayakalp {
+            border-color: rgba(16, 185, 129, 0.4);
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .tag-nqas {
+            border-color: rgba(56, 189, 248, 0.4);
+            color: var(--accent-cyan);
+            background: rgba(56, 189, 248, 0.08);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 8px var(--accent-green);
+        }
+
+        .slide-seq-num {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid var(--border-cyan);
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+
+        /* Slide Body Content */
+        .slide-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 30px 0 20px 0;
+        }
+
+        .eyebrow {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .eyebrow::before {
+            content: '//';
+            color: var(--accent-amber);
+            font-weight: 700;
+        }
+
+        .slide-title {
+            font-family: var(--font-display);
+            font-size: 44px;
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--text-heading);
+            letter-spacing: -1px;
+            margin-bottom: 24px;
+        }
+
+        .slide-title span {
+            color: var(--accent-cyan);
+        }
+
+        .slide-title .amber {
+            color: var(--accent-amber);
+        }
+
+        /* Slide Footer Chrome */
+        .slide-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 18px;
+            border-top: 1px solid var(--border-line);
+        }
+
+        .footer-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .author-box-meta {
+            font-size: 13.5px;
+        }
+
+        .author-box-meta strong {
+            color: #FFFFFF;
+            font-family: var(--font-display);
+            font-size: 15px;
+        }
+
+        .author-box-meta span {
+            color: var(--text-muted);
+        }
+
+        .footer-note {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            color: var(--text-muted);
+        }
+
+        /* Top Progress Bar */
+        .slide-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-green));
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+            transition: width 0.3s ease;
+            z-index: 100;
+        }
+
+        /* ===========================================
+           CARDS & PROTOCOL MODULES
+           =========================================== */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 26px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 36px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+        }
+
+        .grid-6 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, auto);
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--surface-card);
+            border: 1px solid var(--border-line);
+            border-radius: 12px;
+            padding: 26px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.4);
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .card.highlight-cyan {
+            border-top: 4px solid var(--accent-cyan);
+        }
+
+        .card.highlight-amber {
+            border-top: 4px solid var(--accent-amber);
+        }
+
+        .card.highlight-green {
+            border-top: 4px solid var(--accent-green);
+        }
+
+        .card.highlight-red {
+            border-top: 4px solid var(--accent-red);
+        }
+
+        .card-tag {
+            align-self: flex-start;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-body {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-body);
+        }
+
+        .card-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .card-list li {
+            font-size: 14.5px;
+            line-height: 1.45;
+            color: var(--text-body);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .card-list li::before {
+            content: "▸";
+            color: var(--accent-cyan);
+            font-size: 14px;
+            line-height: 1.3;
+        }
+
+        .card-list.green li::before {
+            color: var(--accent-green);
+        }
+
+        .card-list.amber li::before {
+            color: var(--accent-amber);
+        }
+
+        /* Number Callout */
+        .step-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .step-num.amber {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: var(--accent-amber);
+            color: var(--accent-amber);
+        }
+
+        .step-num.green {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .step-num.red {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        /* Big Stat Callout */
+        .stat-callout {
+            background: var(--surface-panel);
+            border: 1px solid var(--border-line);
+            border-left: 5px solid var(--accent-cyan);
+            border-radius: 10px;
+            padding: 20px 28px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-top: 22px;
+        }
+
+        .stat-big {
+            font-family: var(--font-display);
+            font-size: 46px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .stat-caption {
+            font-size: 15.5px;
+            line-height: 1.5;
+            color: var(--text-body);
+        }
+
+        .stat-caption strong {
+            color: #FFFFFF;
+        }
+
+        /* Timing Badge */
+        .time-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(245, 158, 11, 0.12);
+            color: var(--accent-amber);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Comparison columns */
+        .compare-col {
+            background: var(--surface-panel);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-line);
+        }
+
+        .compare-col.soap {
+            border-color: rgba(56, 189, 248, 0.4);
+            border-top: 5px solid var(--accent-cyan);
+        }
+
+        .compare-col.rub {
+            border-color: rgba(16, 185, 129, 0.4);
+            border-top: 5px solid var(--accent-green);
+        }
+
+        .compare-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-line);
+            margin-bottom: 18px;
+        }
+
+        .compare-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        /* BMW Waste Badges */
+        .bmw-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .bmw-box {
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 290px;
+            position: relative;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .bmw-box.yellow {
+            background: linear-gradient(135deg, #78350F, #92400E);
+            border-color: #F59E0B;
+            color: #FEF3C7;
+        }
+        .bmw-box.red {
+            background: linear-gradient(135deg, #7F1D1D, #991B1B);
+            border-color: #EF4444;
+            color: #FEE2E2;
+        }
+        .bmw-box.blue {
+            background: linear-gradient(135deg, #1E3A8A, #1D4ED8);
+            border-color: #38BDF8;
+            color: #EFF6FF;
+        }
+        .bmw-box.white {
+            background: #F8FAFC;
+            border-color: #94A3B8;
+            color: #0F172A;
+        }
+
+        .bmw-category {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: rgba(0,0,0,0.25);
+            align-self: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .bmw-box.white .bmw-category {
+            background: #E2E8F0;
+            color: #1E293B;
+        }
+
+        .bmw-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .bmw-desc {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .bmw-action {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: rgba(0,0,0,0.35);
+            text-align: center;
+        }
+
+        .bmw-box.white .bmw-action {
+            background: #E2E8F0;
+            color: #0F172A;
+            border: 1px solid #CBD5E1;
+        }
+
+        /* Banner notice */
+        .notice-banner {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            border-left: 5px solid var(--accent-red);
+            border-radius: 8px;
+            padding: 16px 22px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .notice-icon {
+            font-size: 24px;
+            color: var(--accent-red);
+        }
+
+        .notice-text {
+            font-size: 14.5px;
+            line-height: 1.45;
+            color: #FCA5A5;
+        }
+
+        .notice-text strong {
+            color: #FFFFFF;
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity var(--duration-normal) var(--ease-out-expo),
+                        transform var(--duration-normal) var(--ease-out-expo);
+        }
+
+        .slide.visible .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide.visible .reveal:nth-child(1) { transition-delay: 0.08s; }
+        .slide.visible .reveal:nth-child(2) { transition-delay: 0.16s; }
+        .slide.visible .reveal:nth-child(3) { transition-delay: 0.24s; }
+        .slide.visible .reveal:nth-child(4) { transition-delay: 0.32s; }
+        .slide.visible .reveal:nth-child(5) { transition-delay: 0.40s; }
+
+        /* Inline Editing */
+        .edit-hotzone {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 80px;
+            z-index: 10000;
+            cursor: pointer;
+        }
+
+        .edit-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+            z-index: 10001;
+            background: #38BDF8;
+            color: #0B132B;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .edit-toggle.show,
+        .edit-toggle.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .edit-toggle.active {
+            background: #10B981;
+            color: #FFFFFF;
+        }
+
+        [contenteditable="true"] {
+            outline: 2px dashed #38BDF8 !important;
+            outline-offset: 4px;
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="deck-viewport">
+        <div class="slide-progress" id="slideProgress"></div>
+
+        <main class="deck-stage" id="deckStage">
+
+            <!-- ==========================================
+                 SLIDE 1: TITLE & COVER SLIDE
+                 ========================================== -->
+            <section class="slide title-slide active" data-slide="1">
+                <div class="slide-inner">
+                    <!-- Top Bar -->
+                    <header class="slide-header reveal">
+                        <div class="header-brand">
+                            <div class="sys-code-badge">NQAS // IPC-HH-04</div>
+                            <div class="header-titles">
+                                <h2>District Hospital, Kozhencherry</h2>
+                                <p>Hospital Infection Control Committee &bull; Sanitation Division</p>
+                            </div>
+                        </div>
+                        <div class="header-tags">
+                            <span class="tag-pill tag-kayakalp"><span class="pulse-dot"></span> Kayakalp Standard</span>
+                            <span class="tag-pill tag-nqas">&#9733; NQAS Certified</span>
+                            <span class="slide-seq-num">MODULE 01/10</span>
+                        </div>
+                    </header>
+
+                    <!-- Hero Center -->
+                    <div class="slide-body">
+                        <div class="grid-2" style="align-items: center; gap: 60px;">
+                            <div class="reveal">
+                                <div class="eyebrow">Standard Operating Procedure &bull; Housekeeping Workforce</div>
+                                <h1 style="font-family: var(--font-display); font-size: 60px; font-weight: 700; line-height: 1.1; color: #FFFFFF; letter-spacing: -1.5px; margin-bottom: 22px;">
+                                    Hospital <span style="color: var(--accent-cyan);">Hand Hygiene</span><br>
+                                    &amp; Infection Control <span style="color: var(--accent-amber);">Protocols</span>
+                                </h1>
+                                <p style="font-size: 20px; line-height: 1.6; color: var(--text-body); max-width: 820px; margin-bottom: 28px;">
+                                    Essential guidelines for hospital cleaning and housekeeping personnel: mastering the 6-step wash technique, 5 operational moments, PPE discipline, and Kayakalp audit readiness.
+                                </p>
+                                <div style="display: flex; gap: 14px;">
+                                    <div class="tag-pill tag-nqas" style="padding: 8px 18px; font-size: 13.5px;">
+                                        &#129532; 6-Step Washing Sequence
+                                    </div>
+                                    <div class="tag-pill tag-kayakalp" style="padding: 8px 18px; font-size: 13.5px;">
+                                        &#9201; 5 Housekeeping Moments
+                                    </div>
+                                    <div class="tag-pill" style="border-color: rgba(245, 158, 11, 0.4); color: var(--accent-amber); background: rgba(245, 158, 11, 0.08); padding: 8px 18px; font-size: 13.5px;">
+                                        &#128737; PPE &amp; BMW Segregation
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card highlight-amber reveal" style="padding: 34px; background: var(--surface-panel);">
+                                <div class="card-tag" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);">Operational Checklist</div>
+                                <h3 style="font-family: var(--font-display); font-size: 24px; font-weight: 700; color: #FFFFFF; margin-bottom: 18px;">
+                                    Clean Hands &bull; Safe Hospital
+                                </h3>
+                                <p style="font-size: 15px; line-height: 1.6; color: var(--text-body); margin-bottom: 22px;">
+                                    At District Hospital Kozhencherry, housekeeping and sanitation workers are the vital shield preventing cross-transmission of hospital-acquired infections (HAIs).
+                                </p>
+                                <div style="display: flex; flex-direction: column; gap: 14px;">
+                                    <div style="display: flex; gap: 14px; align-items: center; background: var(--surface-card); padding: 12px 18px; border-radius: 8px; border: 1px solid var(--border-line);">
+                                        <div class="step-num">01</div>
+                                        <div style="font-size: 14.5px; font-weight: 600; color: #FFFFFF;">Protects your personal health &amp; prevents carrying pathogens home</div>
+                                    </div>
+                                    <div style="display: flex; gap: 14px; align-items: center; background: var(--surface-card); padding: 12px 18px; border-radius: 8px; border: 1px solid var(--border-line);">
+                                        <div class="step-num amber">02</div>
+                                        <div style="font-size: 14.5px; font-weight: 600; color: #FFFFFF;">Stops germ spread across patient beds, toilets &amp; wards</div>
+                                    </div>
+                                    <div style="display: flex; gap: 14px; align-items: center; background: var(--surface-card); padding: 12px 18px; border-radius: 8px; border: 1px solid var(--border-line);">
+                                        <div class="step-num green">03</div>
+                                        <div style="font-size: 14.5px; font-weight: 600; color: #FFFFFF;">Secures high scores for Kayakalp Gold &amp; NQAS Certification</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="slide-footer reveal">
+                        <div class="footer-author">
+                            <div class="author-box-meta">
+                                <strong>Prepared by Merlin Joy</strong> &bull; <span>Infection Prevention &amp; Quality Team</span>
+                            </div>
+                        </div>
+                        <div class="footer-note">
+                            District Hospital, Kozhencherry &bull; Department of Health Services, Kerala
+                        </div>
+                    </footer>
+                </div>
+            </section>
+
+
+            <!-- ==========================================
+                 SLIDE 2: WHY HAND HYGIENE MATTERS
+                 ========================================== -->
+            <section class="slide" data-slide="2">
+                <div class="slide-inner">
+                    <header class="slide-header reveal">
+                        <div class="header-brand">
+                            <div class="sys-code-badge">NQAS // IPC-HH-04</div>
+                            <div class="header-titles">
+                                <h2>District Hospital, Kozhencherry</h2>
+                                <p>Hospital Infection Control Committee (HICC)</p>
+                            </div>
+                        </div>
+                        <div class="header-tags">
+                            <span class="tag-pill tag-kayakalp">Thematic Area B</span>
+                            <span class="slide-seq-num">MODULE 02/10</span>
+                        </div>
+                    </header>
+
+                    <div class="slide-body">
+                        <div class="eyebrow reveal">Chain of Infection Control</div>
+                        <h2 class="slide-title reveal">Why Hand Hygiene is Vital for <span>Cleaning Staff</span></h2>
+
+                        <div class="grid-3 reveal">
+                            <div class="card highlight-cyan">
+                                <div class="card-tag" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan);">Personal Protection</div>
+                                <div class="card-title">
+                                    <span style="font-size: 24px;">&#128104;&#8205;&#9877;&#65039;</span> Protecting Yourself &amp; Family
+                                </div>
+                                <p class="card-body">
+                                    Cleaning staff handle contaminated mops, body fluids, hospital linens, and bio-medical waste bags daily.
+                                </p>
+                                <ul class="card-list">
+                                    <li>Invisible pathogens cling to hands beneath fingernails and wrist folds.</li>
+                                    <li>Failure to wash hands before meals or touching your face causes severe illness.</li>
+                                    <li>Proper hand hygiene prevents hospital superbugs from reaching your home.</li>
+                                </ul>
+                            </div>
+
+                            <div class="card highlight-green">
+                                <div class="card-tag" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-green);">Patient Protection</div>
+                                <div class="card-title">
+                                    <span style="font-size: 24px;">&#127973;</span> Breaking Transmission Links
+                                </div>
+                                <p class="card-body">
+                                    When cleaning bed rails, switches, and tables, contaminated hands can spread germs from bed to bed.
+                                </p>
+                                <ul class="card-list">
+                                    <li>Patients in ICU, post-op wards, and dialysis have very fragile immunity.</li>
+                                    <li>Unwashed hands transfer resistant bacteria (MRSA, Klebsiella).</li>
+                                    <li>Your clean hands prevent life-threatening Healthcare-Associated Infections (HAIs).</li>
+                                </ul>
+                            </div>
+
+                            <div class="card highlight-amber">
+                                <div class="card-tag" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);">Quality Accreditation</div>
+                                <div class="card-title">
+                                    <span style="font-size: 24px;">&#127942;</span> Kayakalp &amp; NQAS Excellence
+                                </div>
+                                <p class="card-body">
+                                    National accreditation assessors directly observe and interview sanitation staff on hygiene protocols.
+                                </p>
+                                <ul class="card-list">
+                                    <li>Inspectors verify if cleaning staff execute all 6 handwash steps properly.</li>
+                                    <li>Direct impact on District Hospital Kozhencherry's Kayakalp award ranking.</li>
+                                    <li>Housekeeping hygiene compliance carries high weightage in NQAS audits.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="stat-callout reveal">
+                            <div class="stat-big">80%</div>
+                            <div class="stat-caption">
+                                <strong>WHO &amp; MoHFW Scientific Fact:</strong> Up to <strong>80% of all hospital-acquired infections</strong> are transmitted directly via unwashed hands. Consistent hand hygiene by housekeeping personnel is our hospital's strongest barrier against ward outbreaks.
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer class="slide-footer reveal">
+                        <div class="footer-author">
+                            <div class="author-box-meta">
+                                <strong>Prepared by Merlin Joy</strong> &bull; <span>District Hospital, Kozhencherry</span>
+                            </div>
+                        </div>
+                        <div class="footer-note">MoHFW National IPC Guidelines &amp; Kayakalp Thematic Area B Standards</div>
+                    </footer>
+                </div>
+            </section>
+
+
+            <!-- ==========================================
+                 SLIDE 3: 5 MOMENTS FOR CLEANING STAFF
+                 ========================================== -->
+            <section class="slide" data-slide="3">
+                <div class="slide-inner">
+                    <header class="slide-header reveal">
+                        <div class="header-brand">
+                            <div class="sys-code-badge">NQAS // IPC-HH-04</div>
+                            <div class="header-titles">
+                                <h2>District Hospital, Kozhencherry</h2>
+                                <p>Hospital Infection Control Committee (HICC)</p>
+                            </div>
+                        </div>
+                        <div class="header-tags">
+                            <span class="tag-pill tag-nqas">NQAS IPC Standard</span>
+                            <span class="slide-seq-num">MODULE 03/10</span>
+                        </div>
+                    </header>
+
+                    <div class="slide-body">
+                        <div class="eyebrow reveal">WHO Operational Protocol Adapted For Housekeeping</div>
+                        <h2 class="slide-title reveal">The 5 Critical Moments of Hand Hygiene <span>for Cleaning Staff</span></h2>
+
+                        <div class="grid-3 reveal" style="grid-template-columns: repeat(5, 1fr); gap: 16px;">
+                            <div class="card highlight-cyan" style="padding: 22px 18px; background: var(--surface-panel);">
+                                <div class="step-num" style="margin-bottom: 14px;">01</div>
+                                <div class="card-title" style="font-size: 17px; margin-bottom: 8px;">Before Clean Supplies</div>
+                                <div class="time-badge" style="font-size: 11px; padding: 4px 10px; margin-bottom: 12px;">PRE-CLEANING</div>
+                                <p class="card-body" style="font-size: 13.5px; line-height: 1.5;">
+                                    Before taking clean mops, clean microfiber cloths, fresh linens, or preparing fresh disinfectant solutions in the housekeeping room.
+                                </p>
+                            </div>
+
+                            <div class="card highlight-green" style="padding: 22px 18px; background: var(--surface-panel);">
+                                <div class="step-num green" style="margin-bottom: 14px;">02</div>
+                                <div class="card-title" style="font-size: 17px; margin-bottom: 8px;">Entering Patient Zone</div>
+                                <div class="time-badge" style="font-size: 11px; padding: 4px 10px; margin-bottom: 12px; background: rgba(16, 185, 129, 0.12); color: var(--accent-green); border-color: var(--border-green);">BEDSIDE ENTRY</div>
+                                <p class="card-body" style="font-size: 13.5px; line-height: 1.5;">
+                                    Before touching bed rails, bedside lockers, IV stands, or tables in a patient's immediate surroundings.
+                                </p>
+                            </div>
+
+                            <div class="card highlight-red" style="padding: 22px 18px; background: var(--surface-panel);">
+                                <div class="step-num red" style="margin-bottom: 14px;">03</div>
+                                <div class="card-title" style="font-size: 17px; margin-bottom: 8px;">After Body Fluid Spills</div>
+                                <div class="time-badge" style="font-size: 11px; padding: 4px 10px; margin-bottom: 12px; background: rgba(239, 68, 68, 0.12); color: var(--accent-red); border-color: rgba(239, 68, 68, 0.3);">HIGH HAZARD</div>
+                                <p class="card-body" style="font-size: 13.5px; line-height: 1.5;">
+                                    Immediately after cleaning blood spills, vomit, urine, bedpans, catheter drainage, or handling contaminated wet linen.
+                                </p>
+                            </div>
+
+                            <div class="card highlight-amber" style="padding: 22px 18px; background: var(--surface-panel);">
+                                <div class="step-num amber" style="margin-bottom: 14px;">04</div>
+                                <div class="card-title" style="font-size: 17px; margin-bottom: 8px;">After Dirty Zones &amp; Toilets</div>
+                                <div class="time-badge" style="font-size: 11px; padding: 4px 10px; margin-bottom: 12px;">POST-SANITATION</div>
+                                <p class="card-body" style="font-size: 13.5px; line-height: 1.5;">
+                                    After scrubbing washrooms, commodes, sluice rooms, or mopping sluice floor surfaces. Wash before moving into the ward corridor!
+                                </p>
+                            </div>
+
+                            <div class="card highlight-green" style="padding: 22px 18px; background: var(--surface-panel);">
+                                <div class="step-num green" style="margin-bottom: 14px;">05</div>
+                                <div class="card-title" style="font-size: 17px; margin-bottom: 8px;">After Removing Gloves</div>
+                                <div class="time-badge" style="font-size: 11px; padding: 4px 10px; margin-bottom: 12px; background: rgba(16, 185, 129, 0.12); color: var(--accent-green); border-color: var(--border-green);">MANDATORY STEP</div>
+                                <p class="card-body" style="font-size: 13.5px; line-height: 1.5;">
+                                    Immediately after doffing utility or examination gloves. Gloves are not 100% leakproof; hands sweat and harbor microbes inside!
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="notice-banner reveal" style="background: rgba(16, 185, 129, 0.1); border-left-color: var(--accent-green); border-color: var(--border-green);">
+                            <div class="notice-icon" style="color: var(--accent-green);">&#10004;</div>
+                            <div class="notice-text" style="color: #A7F3D0;">
+                                <strong>Golden Housekeeping Rule:</strong> Never carry cleaning tools or move from a "dirty area" (e.g., patient washroom or isolation room) to a "clean area" (e.g., nursing counter or medicine store) without performing hand hygiene first!
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer class="slide-footer reveal">
+                        <div class="footer-author">
+                            <div class="author-box-meta">
+                                <strong>Prepared by Merlin Joy</strong> &bull; <span>District Hospital, Kozhencherry</span>
+                            </div>
+                        </div>
+                        <div class="footer-note">WHO Guidelines on Hand Hygiene in Health Care &bull; Environmental Cleaning Adaptations</div>
+                    </footer>
+                </div>
+            </section>
+
+
+            <!-- ==========================================
+                 SLIDE 4: 6 STEPS OF PROPER HANDWASHING
+                 ========================================== -->
+            <section class="slide" data-slide="4">
+                <div class="slide-inner">
+                    <header class="slide-header reveal">
+                        <div class="header-brand">
+                            <div class="sys-code-badge">NQAS // IPC-HH-04</div>
+                            <div class="header-titles">
+                                <h2>District Hospital, Kozhencherry</h2>
+                                <p>Hospital Infection Control Committee (HICC)</p>
+                            </div>
+                        </div>
+                        <div class="header-tags">
+                            <span class="tag-pill tag-kayakalp">SOP Protocol</span>
+                            <span class="slide-seq-num">MODULE 04/10</span>
+                        </div>
+                    </header>
+
+                    <div class="slide-body">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
+                            <div>
+                                <div class="eyebrow reveal">WHO &amp; NQAS Standardized Technique</div>
+                                <h2 class="slide-title reveal" style="margin-bottom: 0;">The 6-Step Hand Hygiene Technique <span>(Step-by-Step)</span></h2>
+                            </div>
+                            <div class="reveal" style="display: flex; gap: 12px;">
+                                <span class="time-badge" style="background: rgba(56, 189, 248, 0.12); color: var(--accent-cyan); border-color: var(--border-cyan);">
+                                    &#128167; Soap &amp; Water: 40–60 Seconds
+                                </span>
+                                <span class="time-badge" style="background: rgba(16, 185, 129, 0.12); color: var(--accent-green); border-color: var(--border-green);">
+                                    &#9889; Hand Rub: 20–30 Seconds
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="grid-6 reveal">
+                            <div class="card" style="padding: 20px;">
+                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                                    <div class="step-num">01</div>
+                                    <h4 style="font-family: var(--font-display); font-size: 17px; font-weight: 700; color: #FFFFFF;">Palm to Palm</h4>
+                                </div>
+                                <p style="font-size: 14px; line-height: 1.5; color: var(--text-body);">
+                                    Rub hands palm to palm vigorously in circular motion to lather soap over the entire inner hand surface.
+                                </p>
+                            </div>
+
+                            <div class="card" style="padding: 20px;">
+                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                                    <div class="step-num">02</div>
+                                    <h4 style="font-family: var(--font-display); font-size: 17px; font-weight: 700; color: #FFFFFF;">Back of Hands (Dorsum)</h4>
+                                </div>
+                                <p style="font-size: 14px; line-height: 1.5; color: var(--text-body);">
+                                    Right palm over left dorsum with fingers interlaced, rub thoroughly. Switch and repeat for right hand.
+                                </p>
+                            </div>
+
+                            <div class="card" style="padding: 20px;">
+                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                                    <div class="step-num">03</div>
+                                    <h4 style="font-family: var(--font-display); font-size: 17px; font-weight: 700; color: #FFFFFF;">Interlaced Web Spaces</h4>
+                                </div>
+                                <p style="font-size: 14px; line-height: 1.5; color: var(--text-body);">
+                                    Palm to palm with fingers interlaced. Clean the deep spaces and skin webbing between fingers where microbes hide.
+                                </p>
+                            </div>
+
+                            <div class="card" style="padding: 20px;">
+                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                                    <div class="step-num">04</div>
+                                    <h4 style="font-family: var(--font-display); font-size: 17px; font-weight: 700; color: #FFFFFF;">Back of Fingers (Knuckles)</h4>
+                                </div>
+                                <p style="font-size: 14px; line-height: 1.5; color: var(--text-body);">
+                                    Interlock fingers into opposite palms with knuckles bent. Rub side-to-side to scour back of folded fingers.
+                                </p>
+                            </div>
+
+                            <div class="card" style="padding: 20px;">
+                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                                    <div class="step-num">05</div>
+                                    <h4 style="font-family: var(--font-display); font-size: 17px; font-weight: 700; color: #FFFFFF;">Thumbs Rotational Rub</h4>
+                                </div>
+                                <p style="font-size: 14px; line-height: 1.5; color: var(--text-body);">
+                                    Clasp left thumb firmly in right palm and rotate back and forth. Switch and rotate right thumb in left palm.
+                                </p>
+                            </div>
+
+                            <div class="card" style="padding: 20px;">
+                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                                    <div class="step-num">06</div>
+                                    <h4 style="font-family: var(--font-display); font-size: 17px; font-weight: 700; color: #FFFFFF;">Fingertips, Nails &amp; Wrists</h4>
+                                </div>
+                                <p style="font-size: 14px; line-height: 1.5; color: var(--text-body);">
+                                    Rub clustered fingertips rotational in palm to clean under nails. Finish by rubbing both wrists before rinsing.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="stat-callout reveal" style="margin-top: 18px; padding: 16px 24px; border-left-color: var(--accent-amber);">
+                            <div style="font-size: 26px;">&#128161;</div>
+                            <div class="stat-caption" style="font-size: 15px;">
+                                <strong>Kayakalp Assessment Checklist:</strong> Assessors will observe cleaning staff demonstrating this full sequence. Remember the mnemonic: <strong>Palms &rarr; Backs &rarr; Web spaces &rarr; Knuckles &rarr; Thumbs &rarr; Fingertips &amp; Wrists!</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer class="slide-footer reveal">
+                        <div class="footer-author">
+                            <div class="author-box-meta">
+                                <strong>Prepared by Merlin Joy</strong> &bull; <span>District Hospital, Kozhencherry</span>
+                            </div>
+                        </div>
+                        <div class="footer-note">Protocol Reference: National Quality Assurance Standards (NQAS) Checklist Criteria</div>
+                    </footer>
+                </div>
+            </section>
+
+
+            <!-- ==========================================
+                 SLIDE 5: SOAP & WATER VS ALCOHOL RUB
+                 ========================================== -->
+            <section class="slide" data-slide="5">
+                <div class="slide-inner">
+                    <header class="slide-header reveal">
+                        <div class="header-brand">
+                            <div class="sys-code-badge">NQAS // IPC-HH-04</div>
+                            <div class="header-titles">
+                                <h2>District Hospital, Kozhencherry</h2>
+                                <p>Hospital Infection Control Committee (HICC)</p>
+                            </div>
+                        </div>
+                        <div class="header-tags">
+                            <span class="tag-pill tag-nqas">Comparison Standard</span>
+                            <span class="slide-seq-num">MODULE 05/10</span>
+                        </div>
+                    </header>
+
+                    <div class="slide-body">
+                        <div class="eyebrow reveal">Choosing the Correct Method</div>
+                        <h2 class="slide-title reveal">Soap &amp; Water vs. <span>Alcohol-Based Hand Rub (ABHR)</span></h2>
+
+                        <div class="grid-2 reveal">
+                            <!-- Soap & Water -->
+                            <div class="compare-col soap">
+                                <div class="compare-header">
+                                    <div>
+                                        <div class="card-tag" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan);">MECHANICAL WASH</div>
+                                        <div class="compare-title">Soap &amp; Running Water</div>
+                                    </div>
+                                    <div class="time-badge" style="background: rgba(56, 189, 248, 0.12); color: var(--accent-cyan); border-color: var(--border-cyan);">
+                                        40–60 SECONDS
+                                    </div>
+                                </div>
+                                <h4 style="font-family: var(--font-display); font-size: 16px; color: var(--accent-cyan); margin-bottom: 10px;">
+                                    Mandatory In The Following Situations:
+                                </h4>
+                                <ul class="card-list">
+                                    <li><strong>Visibly Soiled Hands:</strong> Hands have dust, dirt, grease, or chemical stains.</li>
+                                    <li><strong>Body Fluid Contact:</strong> After cleaning blood, urine, vomit, or fecal spills.</li>
+                                    <li><strong>After Cleaning Toilets:</strong> Scrubbing pans, commodes, sinks, or handling soiled mops.</li>
+                                    <li><strong>Diarrheal Patient Wards:</strong> Caring for <em>C. difficile</em> or Norovirus areas (alcohol rub cannot penetrate bacterial spores).</li>
+                                    <li><strong>Personal Hygiene:</strong> After using the staff washroom or before eating food.</li>
+                                </ul>
+                                <div style="margin-top: auto; padding-top: 16px; font-size: 13.5px; color: var(--text-muted); font-style: italic;">
+                                    *Always dry hands thoroughly using clean single-use paper towels or air dry. Never wipe on your uniform!
+                                </div>
+                            </div>
+
+                            <!-- Alcohol Hand Rub -->
+                            <div class="compare-col rub">
+                                <div class="compare-header">
+                                    <div>
+                                        <div class="card-tag" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-green);">RAPID ANTISEPSIS</div>
+                                        <div class="compare-title">Alcohol Hand Rub (ABHR)</div>
+                                    </div>
+                                    <div class="time-badge" style="background: rgba(16, 185, 129, 0.12); color: var(--accent-green); border-color: var(--border-green);">
+                                        20–30 SECONDS
+                                    </div>
+                                </div>
+                                <h4 style="font-family: var(--font-display); font-size: 16px; color: var(--accent-green); margin-bottom: 10px;">
+                                    Ideal For Routine Point-of-Care Sanitization:
+                                </h4>
+                                <ul class="card-list green">
+                                    <li><strong>No Visible Soil:</strong> Hands feel clean but require quick microbial decontamination.</li>
+                                    <li><strong>Moving Between Beds:</strong> When wiping bedside rails from Bed 1 to Bed 2 in a general ward.</li>
+                                    <li><strong>Before Wearing Gloves:</strong> Quick sanitization before donning clean rubber/nitrile gloves.</li>
+                                    <li><strong>Housekeeping Trolley:</strong> Mounted on your cleaning cart for continuous immediate use.</li>
+                                    <li><strong>Rapid Action:</strong> Kills 99.9% of bacteria and viruses in 20 seconds.</li>
+                                </ul>
+                                <div style="margin-top: auto; padding-top: 16px; font-size: 13.5px; color: var(--text-muted); font-style: italic;">
+                                    *Rub vigorously until hands are 100% dry. Do not fan hands or wipe the sanitizer off with a rag.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="notice-banner reveal" style="background: rgba(245, 158, 11, 0.1); border-left-color: var(--accent-amber); border-color: var(--border-amber); margin-top: 22px;">
+                            <div class="notice-icon" style="color: var(--accent-amber);">&#9888;&#65039;</div>
+                            <div class="notice-text" style="color: #FDE68A;">
+                                <strong>Important Distinction:</strong> Alcohol rub is fast and convenient, but it does NOT wash away physical dirt or spore-forming microbes. If hands have visible grime or blood, <strong>soap and running water is compulsory!</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer class="slide-footer reveal">
+                        <div class="footer-author">
+                            <div class="author-box-meta">
+                                <strong>Prepared by Merlin Joy</strong> &bull; <span>District Hospital, Kozhencherry</span>
+                            </div>
+                        </div>
+                        <div class="footer-note">Kayakalp Cleanliness Assessment Protocol &bull; Hand Hygiene Product Guidelines</div>
+                    </footer>
+                </div>
+            </section>
+
+
+            <!-- ==========================================
+                 SLIDE 6: PPE & HAND HYGIENE RULES
+                 ========================================== -->
+            <section class="slide" data-slide="6">
+                <div class="slide-inner">
+                    <header class="slide-header reveal">
+                        <div class="header-brand">
+                            <div class="sys-code-badge">NQAS // IPC-HH-04</div>
+                            <div class="header-titles">
+                                <h2>District Hospital, Kozhencherry</h2>
+                                <p>Hospital Infection Control Committee (HICC)</p>
+                            </div>
+                        </div>
+                        <div class="header-tags">
+                            <span class="tag-pill tag-kayakalp">Staff Safety Standard</span>
+                            <span class="slide-seq-num">MODULE 06/10</span>
+                        </div>
+                    </header>
+
+                    <div class="slide-body">
+                        <div class="eyebrow reveal">Personal Protective Equipment</div>
+                        <h2 class="slide-title reveal">PPE &amp; Gloves: <span>Rules, Myths &amp; Common Errors</span></h2>
+
+                        <div class="grid-3 reveal">
+                            <div class="card highlight-red">
+                                <div class="card-tag" style="background: rgba(239, 68, 68, 0.15); color: var(--accent-red);">MYTH VS FACT</div>
+                                <div class="card-title">
+                                    <span style="font-size: 24px;">&#9888;&#65039;</span> Gloves Do NOT Replace Handwash
+                                </div>
+                                <p class="card-body">
+                                    A common misconception among cleaning staff is believing gloves provide 100% protection without hand hygiene.
+                                </p>
+                                <ul class="card-list">
+                                    <li>Gloves have microscopic pores that allow fluid and viral seepage.</li>
+                                    <li>Warm perspiration inside gloves triggers massive bacterial growth on hands.</li>
+                                    <li>Taking gloves off always touches the contaminated outer surface against skin.</li>
+                                    <li><strong>Hand hygiene is required immediately after removing gloves!</strong></li>
+                                </ul>
+                            </div>
+
+                            <div class="card highlight-cyan">
+                                <div class="card-tag" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan);">ORDER OF ACTIONS</div>
+                                <div class="card-title">
+                                    <span style="font-size: 24px;">&#128080;</span> Donning &amp; Doffing Sequence
+                                </div>
+                                <p class="card-body">
+                                    How to wear and remove gloves safely to prevent self-contamination during hospital sanitation rounds:
+                                </p>
+                                <ul class="card-list">
+                                    <li><strong>Before Donning:</strong> Wash hands thoroughly and dry completely before wearing gloves.</li>
+                                    <li><strong>During Work:</strong> Never touch your eyes, nose, phone, or door handles with gloved hands.</li>
+                                    <li><strong>Safe Doffing:</strong> Peel glove from wrist rolling inside-out. Hold with other gloved hand. Slide bare fingers inside second glove to invert both.</li>
+                                </ul>
+                            </div>
+
+                            <div class="card highlight-amber">
+                                <div class="card-tag" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);">GLOVE SELECTION</div>
+                                <div class="card-title">
+                                    <span style="font-size: 24px;">&#129514;</span> Right Glove for the Right Task
+                                </div>
+                                <p class="card-body">
+                                    Under Kayakalp guidelines, matching glove types to the cleaning environment is mandatory:
+                                </p>
+                                <ul class="card-list amber">
+                                    <li><strong>Heavy-Duty Rubber Utility Gloves:</strong> For scrubbing toilets, mopping floors, handling BMW bags, and washing contaminated mops.</li>
+                                    <li><strong>Nitrile / Examination Gloves:</strong> For wiping patient bedside furniture and cleaning low-risk ward surfaces.</li>
+                                    <li>Wash utility gloves with soap and water, inspect for punctures, and hang dry inside-out daily.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="notice-banner reveal">
+                            <div class="notice-icon">&#128683;</div>
+                            <div class="notice-text">
+                                <strong>Strict Kayakalp &amp; NQAS Prohibition:</strong> Never spray sanitizer or rub disinfectant chemicals onto gloved hands! Alcohol degrades glove material, creates holes, and gives a false sense of security. Always discard gloves and wash hands.
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer class="slide-footer reveal">
+                        <div class="footer-author">
+                            <div class="author-box-meta">
+                                <strong>Prepared by Merlin Joy</strong> &bull; <span>District Hospital, Kozhencherry</span>
+                            </div>
+                        </div>
+                        <div class="footer-note">Kayakalp Thematic Area B &bull; PPE Protocols for Environmental Cleaning</div>
+                    </footer>
+                </div>
+            </section>
+
+
+            <!-- ==========================================
+                 SLIDE 7: BIO-MEDICAL WASTE (BMW) MANAGEMENT
+                 ========================================== -->
+            <section class="slide" data-slide="7">
+                <div class="slide-inner">
+                    <header class="slide-header reveal">
+                        <div class="header-brand">
+                            <div class="sys-code-badge">NQAS // IPC-HH-04</div>
+                            <div class="header-titles">
+                                <h2>District Hospital, Kozhencherry</h2>
+                                <p>Hospital Infection Control Committee (HICC)</p>
+                            </div>
+                        </div>
+                        <div class="header-tags">
+                            <span class="tag-pill tag-kayakalp">BMW Rules 2016</span>
+                            <span class="slide-seq-num">MODULE 07/10</span>
+                        </div>
+                    </header>
+
+                    <div class="slide-body">
+                        <div class="eyebrow reveal">Kayakalp Waste Handling &amp; Hand Protection</div>
+                        <h2 class="slide-title reveal">Bio-Medical Waste Segregation &amp; <span>Hand Hygiene Safeguards</span></h2>
+
+                        <div class="bmw-grid reveal">
+                            <!-- Yellow Bin -->
+                            <div class="bmw-box yellow">
+                                <div>
+                                    <div class="bmw-category">Yellow Bin &bull; Infectious</div>
+                                    <div class="bmw-title">Anatomical &amp; Soiled</div>
+                                    <p class="bmw-desc">
+                                        Human tissues, soiled cotton, dressing gauze, plaster casts, blood-soaked swabs, expired medicine, and microbiology cultures.
+                                    </p>
+                                </div>
+                                <div class="bmw-action">Method: Incineration / Pyrolysis</div>
+                            </div>
+
+                            <!-- Red Bin -->
+                            <div class="bmw-box red">
+                                <div>
+                                    <div class="bmw-category">Red Bin &bull; Plastics</div>
+                                    <div class="bmw-title">Recyclable Plastics</div>
+                                    <p class="bmw-desc">
+                                        Tubing, IV bottles, syringes (without needle), urine bags, catheters, gloves, and vacutainer tubes without sharps.
+                                    </p>
+                                </div>
+                                <div class="bmw-action">Method: Autoclaving &amp; Shredding</div>
+                            </div>
+
+                            <!-- Blue Bin -->
+                            <div class="bmw-box blue">
+                                <div>
+                                    <div class="bmw-category">Blue Cardboard Box / Bin</div>
+                                    <div class="bmw-title">Glassware &amp; Implants</div>
+                                    <p class="bmw-desc">
+                                        Medicine glass ampoules, vials, contaminated glassware, and orthopedic metal implants.
+                                    </p>
+                                </div>
+                                <div class="bmw-action">Method: Disinfection &amp; Recycling</div>
+                            </div>
+
+                            <!-- White Bin -->
+                            <div class="bmw-box white">
+                                <div>
+                                    <div class="bmw-category">White Box &bull; Sharps</div>
+                                    <div class="bmw-title">Puncture-Proof Sharps</div>
+                                    <p class="bmw-desc">
+                                        Needles, scalpels, surgical blades, lumbar puncture needles, contaminated sharp metal items.
+                                    </p>
+                                </div>
+                                <div class="bmw-action">Method: Dry Heat / Encapsulation</div>
+                            </div>
+                        </div>
+
+                        <div class="card highlight-cyan reveal" style="margin-top: 22px; padding: 20px 28px; background: var(--surface-panel);">
+                            <h4 style="font-family: var(--font-display); font-size: 16px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">
+                                Housekeeping Handling Protocols for Kozhencherry Cleaning Staff:
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; font-size: 14.5px; color: var(--text-body);">
+                                <div><strong>1. Tie at 2/3 Capacity:</strong> Never overfill or press down bags with hands or feet. Tie with zip-tie or knot.</div>
+                                <div><strong>2. Never Recap Sharps:</strong> If a syringe is found on floor, use forceps and put in white container. Never touch needle tips!</div>
+                                <div><strong>3. Immediate Handwash:</strong> Wash hands with soap and water immediately after transporting bags to central storage.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer class="slide-footer reveal">
+                        <div class="footer-author">
+                            <div class="author-box-meta">
+                                <strong>Prepared by Merlin Joy</strong> &bull; <span>District Hospital, Kozhencherry</span>
+                            </div>
+                        </div>
+                        <div class="footer-note">Bio-Medical Waste Management Rules 2016 &bull; Kayakalp Thematic Area C</div>
+                    </footer>
+                </div>
+            </section>
+
+
+            <!-- ==========================================
+                 SLIDE 8: CHEMICAL SAFETY & SKIN CARE
+                 ========================================== -->
+            <section class="slide" data-slide="8">
+                <div class="slide-inner">
+                    <header class="slide-header reveal">
+                        <div class="header-brand">
+                            <div class="sys-code-badge">NQAS // IPC-HH-04</div>
+                            <div class="header-titles">
+                                <h2>District Hospital, Kozhencherry</h2>
+                                <p>Hospital Infection Control Committee (HICC)</p>
+                            </div>
+                        </div>
+                        <div class="header-tags">
+                            <span class="tag-pill tag-nqas">Occupational Health</span>
+                            <span class="slide-seq-num">MODULE 08/10</span>
+                        </div>
+                    </header>
+
+                    <div class="slide-body">
+                        <div class="eyebrow reveal">Staff Wellness &amp; Disinfectant Handling</div>
+                        <h2 class="slide-title reveal">Chemical Safety, Hypochlorite Dilution &amp; <span>Skin Care</span></h2>
+
+                        <div class="grid-3 reveal">
+                            <!-- Disinfectant Dilution -->
+                            <div class="card highlight-cyan">
+                                <div class="card-tag" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan);">SODIUM HYPOCHLORITE</div>
+                                <div class="card-title">
+                                    <span style="font-size: 24px;">&#129514;</span> Dilution SOP Guidelines
+                                </div>
+                                <p class="card-body">
+                                    Sodium Hypochlorite (Bleach) is the primary hospital disinfectant for high-risk decontamination:
+                                </p>
+                                <ul class="card-list">
+                                    <li><strong>1% Hypochlorite (10,000 ppm):</strong> For managing active blood, body fluid spills, and HIV/Hepatitis surface cleaning.</li>
+                                    <li><strong>0.5% Hypochlorite (5,000 ppm):</strong> For routine floor mopping in Operation Theatres, ICUs, and Isolation wards.</li>
+                                    <li><strong>Prepare Fresh Daily:</strong> Diluted bleach loses chlorine strength after 24 hours. Keep in opaque containers.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Skin Protection -->
+                            <div class="card highlight-green">
+                                <div class="card-tag" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-green);">SKIN HEALTH</div>
+                                <div class="card-title">
+                                    <span style="font-size: 24px;">&#129534;</span> Preventing Dermatitis
+                                </div>
+                                <p class="card-body">
+                                    Repeated handwashing and harsh chemicals strip natural skin oils, causing cracks, dryness, and eczema:
+                                </p>
+                                <ul class="card-list green">
+                                    <li><strong>Dry Thoroughly:</strong> Always dry hands completely before wearing gloves to prevent fungal dermatitis.</li>
+                                    <li><strong>Moisturizing Cream:</strong> Apply hospital-approved soothing lotion at end of shift and before going home.</li>
+                                    <li><strong>Lukewarm/Cool Water:</strong> Never wash hands with scalding hot water; it increases skin irritation and removes protective lipids.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Injury Protocol -->
+                            <div class="card highlight-red">
+                                <div class="card-tag" style="background: rgba(239, 68, 68, 0.15); color: var(--accent-red);">EMERGENCY PROTOCOL</div>
+                                <div class="card-title">
+                                    <span style="font-size: 24px;">&#129656;</span> Needle-Stick or Sharp Injury
+                                </div>
+                                <p class="card-body">
+                                    If accidentally punctured by a discarded needle or sharp object during cleaning:
+                                </p>
+                                <ul class="card-list">
+                                    <li><strong>Wash Under Tap:</strong> Wash gently with soap and running water immediately. <em>Do NOT squeeze or scrub the wound!</em></li>
+                                    <li><strong>Do NOT Use Bleach:</strong> Never apply sodium hypochlorite or alcohol rub into puncture wounds.</li>
+                                    <li><strong>Immediate Reporting:</strong> Report to Merlin Joy / Sister In-Charge within 2 hours for Post-Exposure Prophylaxis (PEP).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="stat-callout reveal" style="padding: 18px 26px; border-left-color: var(--accent-green);">
+                            <div style="font-size: 28px;">&#128105;&#8205;&#9877;&#65039;</div>
+                            <div class="stat-caption">
+                                <strong>District Hospital Kozhencherry Staff Wellness:</strong> If you experience persistent redness, itching, or cracks on your hands, report directly to the Infection Control Sister or Merlin Joy. We supply specialized barrier creams to safeguard your skin!
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer class="slide-footer reveal">
+                        <div class="footer-author">
+                            <div class="author-box-meta">
+                                <strong>Prepared by Merlin Joy</strong> &bull; <span>District Hospital, Kozhencherry</span>
+                            </div>
+                        </div>
+                        <div class="footer-note">Occupational Safety and Health Standards &bull; Kerala State Infection Control Manual</div>
+                    </footer>
+                </div>
+            </section>
+
+
+            <!-- ==========================================
+                 SLIDE 9: KAYAKALP & NQAS AUDIT STANDARDS
+                 ========================================== -->
+            <section class="slide" data-slide="9">
+                <div class="slide-inner">
+                    <header class="slide-header reveal">
+                        <div class="header-brand">
+                            <div class="sys-code-badge">NQAS // IPC-HH-04</div>
+                            <div class="header-titles">
+                                <h2>District Hospital, Kozhencherry</h2>
+                                <p>Hospital Infection Control Committee (HICC)</p>
+                            </div>
+                        </div>
+                        <div class="header-tags">
+                            <span class="tag-pill tag-kayakalp">Audit Checklist</span>
+                            <span class="slide-seq-num">MODULE 09/10</span>
+                        </div>
+                    </header>
+
+                    <div class="slide-body">
+                        <div class="eyebrow reveal">Kayakalp Thematic Area B &amp; NQAS IPC Indicators</div>
+                        <h2 class="slide-title reveal">Audit Checkpoints: <span>What Assessors Inspect at Kozhencherry</span></h2>
+
+                        <div class="grid-4 reveal">
+                            <!-- Checkpoint 1 -->
+                            <div class="card highlight-cyan">
+                                <div class="step-num" style="margin-bottom: 12px;">01</div>
+                                <div class="card-title" style="font-size: 18px;">Washing Sink Setup</div>
+                                <p class="card-body" style="font-size: 14px;">
+                                    Assessors examine dedicated handwashing sinks in wards and sluice rooms.
+                                </p>
+                                <ul class="card-list" style="font-size: 13.5px;">
+                                    <li>Elbow-operated or sensor taps in working condition.</li>
+                                    <li>Continuous 24/7 running water with no pipe leaks.</li>
+                                    <li>Clean sink bowl free from dirt rings, stains, and debris.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Checkpoint 2 -->
+                            <div class="card highlight-amber">
+                                <div class="step-num amber" style="margin-bottom: 12px;">02</div>
+                                <div class="card-title" style="font-size: 18px;">Liquid Soap Dispensers</div>
+                                <p class="card-body" style="font-size: 14px;">
+                                    Strict prohibition against solid bar soaps in healthcare areas!
+                                </p>
+                                <ul class="card-list amber" style="font-size: 13.5px;">
+                                    <li>Functioning wall-mounted liquid soap dispensers.</li>
+                                    <li>Clean dispenser nozzles (no dried congealed soap).</li>
+                                    <li>Never top-off partially empty soap bottles; wash and dry bottle before refilling.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Checkpoint 3 -->
+                            <div class="card highlight-green">
+                                <div class="step-num green" style="margin-bottom: 12px;">03</div>
+                                <div class="card-title" style="font-size: 18px;">Drying &amp; Waste Bin</div>
+                                <p class="card-body" style="font-size: 14px;">
+                                    Wet hands spread 1000 times more bacteria than dry hands!
+                                </p>
+                                <ul class="card-list green" style="font-size: 13.5px;">
+                                    <li>Availability of clean paper towels or designated single-use cloths.</li>
+                                    <li>Foot-pedal operated waste bin located next to the washbasin.</li>
+                                    <li>Staff must not share communal damp cloth towels.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Checkpoint 4 -->
+                            <div class="card highlight-cyan">
+                                <div class="step-num" style="margin-bottom: 12px;">04</div>
+                                <div class="card-title" style="font-size: 18px;">Housekeeping Cart</div>
+                                <p class="card-body" style="font-size: 14px;">
+                                    The mobile cleaning trolley is a key inspection highlight.
+                                </p>
+                                <ul class="card-list" style="font-size: 13.5px;">
+                                    <li>Mounted bottle of alcohol hand rub (ABHR) with valid expiry date.</li>
+                                    <li>Clear color-coded microfiber cloths (Blue for glass, Red for toilets, Yellow for tables).</li>
+                                    <li>Pictorial handwashing charts displayed in Malayalam &amp; English.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="notice-banner reveal" style="background: rgba(56, 189, 248, 0.1); border-left-color: var(--accent-cyan); border-color: var(--border-cyan); margin-top: 22px;">
+                            <div class="notice-icon" style="color: var(--accent-cyan);">&#128221;</div>
+                            <div class="notice-text" style="color: #BAE6FD;">
+                                <strong>Daily Housekeeping Responsibility:</strong> Cleaning staff must inspect their assigned ward handwashing station at the start of every shift. If liquid soap or paper towels are missing, notify the store in-charge or Merlin Joy immediately!
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer class="slide-footer reveal">
+                        <div class="footer-author">
+                            <div class="author-box-meta">
+                                <strong>Prepared by Merlin Joy</strong> &bull; <span>District Hospital, Kozhencherry</span>
+                            </div>
+                        </div>
+                        <div class="footer-note">Kayakalp External Assessment Verification Criteria &bull; MoHFW Government of India</div>
+                    </footer>
+                </div>
+            </section>
+
+
+            <!-- ==========================================
+                 SLIDE 10: SUMMARY & KOZHENCHERRY PLEDGE
+                 ========================================== -->
+            <section class="slide" data-slide="10">
+                <div class="slide-inner">
+                    <header class="slide-header reveal">
+                        <div class="header-brand">
+                            <div class="sys-code-badge">NQAS // IPC-HH-04</div>
+                            <div class="header-titles">
+                                <h2>District Hospital, Kozhencherry</h2>
+                                <p>Hospital Infection Control Committee (HICC)</p>
+                            </div>
+                        </div>
+                        <div class="header-tags">
+                            <span class="tag-pill tag-kayakalp"><span class="pulse-dot"></span> Kayakalp Gold</span>
+                            <span class="tag-pill tag-nqas">&#9733; NQAS Certified</span>
+                            <span class="slide-seq-num">MODULE 10/10</span>
+                        </div>
+                    </header>
+
+                    <div class="slide-body">
+                        <div class="grid-2" style="align-items: center; gap: 50px;">
+                            <!-- 5 Golden Rules Recap -->
+                            <div class="reveal">
+                                <div class="eyebrow">Operational Takeaways</div>
+                                <h2 style="font-family: var(--font-display); font-size: 38px; font-weight: 700; color: #FFFFFF; margin-bottom: 20px;">
+                                    5 Golden Hand Hygiene Rules <br><span style="color: var(--accent-cyan);">For Housekeeping Heroes</span>
+                                </h2>
+                                <div style="display: flex; flex-direction: column; gap: 14px;">
+                                    <div style="display: flex; align-items: center; gap: 14px; background: var(--surface-card); padding: 14px 20px; border-radius: 8px; border: 1px solid var(--border-line);">
+                                        <div class="step-num">1</div>
+                                        <div style="font-size: 15px; font-weight: 600; color: #FFFFFF;">Perform hand hygiene at all 5 housekeeping moments without fail.</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 14px; background: var(--surface-card); padding: 14px 20px; border-radius: 8px; border: 1px solid var(--border-line);">
+                                        <div class="step-num amber">2</div>
+                                        <div style="font-size: 15px; font-weight: 600; color: #FFFFFF;">Soap &amp; water (40-60s) when visibly soiled; ABHR (20-30s) for routine speed.</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 14px; background: var(--surface-card); padding: 14px 20px; border-radius: 8px; border: 1px solid var(--border-line);">
+                                        <div class="step-num green">3</div>
+                                        <div style="font-size: 15px; font-weight: 600; color: #FFFFFF;">Gloves do not replace hand hygiene; wash immediately after glove removal.</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 14px; background: var(--surface-card); padding: 14px 20px; border-radius: 8px; border: 1px solid var(--border-line);">
+                                        <div class="step-num amber">4</div>
+                                        <div style="font-size: 15px; font-weight: 600; color: #FFFFFF;">Follow BMW 4-color segregation strictly; never press down waste bags.</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 14px; background: var(--surface-card); padding: 14px 20px; border-radius: 8px; border: 1px solid var(--border-line);">
+                                        <div class="step-num green">5</div>
+                                        <div style="font-size: 15px; font-weight: 600; color: #FFFFFF;">Dry hands completely to protect your skin; report injuries within 2 hours.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hospital Pledge Card -->
+                            <div class="card highlight-green reveal" style="padding: 38px; background: var(--surface-panel); border-color: var(--border-green);">
+                                <div class="card-tag" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-green); font-size: 12px;">OUR SHARED PLEDGE</div>
+                                <h3 style="font-family: var(--font-display); font-size: 26px; font-weight: 700; color: #FFFFFF; margin-bottom: 16px;">
+                                    District Hospital Kozhencherry Cleanliness Pledge
+                                </h3>
+                                <p style="font-size: 17px; line-height: 1.65; color: var(--text-body); font-style: italic; margin-bottom: 24px; border-left: 4px solid var(--accent-green); padding-left: 18px;">
+                                    &ldquo;We, the cleaning and housekeeping team of District Hospital Kozhencherry, pledge to practice proper hand hygiene at every critical moment. We take proud ownership of our hospital's infection control, protecting our patients, our colleagues, and our families.&rdquo;
+                                </p>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 18px; border-top: 1px solid var(--border-line);">
+                                    <div>
+                                        <div style="font-family: var(--font-display); font-weight: 700; font-size: 17px; color: #FFFFFF;">Merlin Joy</div>
+                                        <div style="font-size: 13px; color: var(--text-muted);">Infection Prevention Officer &bull; DH Kozhencherry</div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div style="font-family: var(--font-mono); font-weight: 700; font-size: 14px; color: var(--accent-green);">&#10004; Kayakalp Committed</div>
+                                        <div style="font-size: 12.5px; color: var(--text-muted);">Government of Kerala</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer class="slide-footer reveal">
+                        <div class="footer-author">
+                            <div class="author-box-meta">
+                                <strong>Prepared by Merlin Joy</strong> &bull; <span>District Hospital, Kozhencherry</span>
+                            </div>
+                        </div>
+                        <div class="footer-note">Together for a Clean, Infection-Free District Hospital Kozhencherry!</div>
+                    </footer>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Presentation Chrome Controls -->
+    <nav class="deck-controls">
+        <button class="deck-btn" id="prevBtn" title="Previous Slide (Left Arrow)">&#8592;</button>
+        <div class="deck-counter" id="deckCounter">Slide 1 / 10</div>
+        <button class="deck-btn" id="nextBtn" title="Next Slide (Right Arrow or Space)">&#8594;</button>
+    </nav>
+
+    <!-- Inline Editing Hotzone & Toggle -->
+    <div class="edit-hotzone"></div>
+    <button class="edit-toggle" id="editToggle" title="Edit presentation text (Press E)">✏️ Edit Text</button>
+
+    <!-- Slide Presentation JavaScript Controller -->
+    <script>
+        /* ===========================================
+           SLIDE PRESENTATION CONTROLLER
+           =========================================== */
+        class SlidePresentation {
+            constructor() {
+                this.slides = document.querySelectorAll('.slide');
+                this.totalSlides = this.slides.length;
+                this.currentSlide = 0;
+                this.stage = document.getElementById('deckStage');
+                this.counter = document.getElementById('deckCounter');
+                this.progressBar = document.getElementById('slideProgress');
+                this.isEditing = false;
+
+                this.setupStageScale();
+                this.setupKeyboardNav();
+                this.setupTouchNav();
+                this.setupButtonNav();
+                this.setupInlineEditor();
+                this.showSlide(0);
+            }
+
+            setupStageScale() {
+                const scale = () => {
+                    const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                    const x = (window.innerWidth - 1920 * factor) / 2;
+                    const y = (window.innerHeight - 1080 * factor) / 2;
+                    this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+                };
+                scale();
+                window.addEventListener('resize', scale);
+                window.addEventListener('orientationchange', scale);
+            }
+
+            setupKeyboardNav() {
+                window.addEventListener('keydown', (e) => {
+                    // Skip nav keys if user is editing text inside contenteditable
+                    if (this.isEditing && document.activeElement && document.activeElement.isContentEditable) {
+                        if (e.key === 'Escape') {
+                            document.activeElement.blur();
+                        }
+                        return;
+                    }
+
+                    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                        e.preventDefault();
+                        this.nextSlide();
+                    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                        e.preventDefault();
+                        this.prevSlide();
+                    } else if (e.key === 'Home') {
+                        e.preventDefault();
+                        this.showSlide(0);
+                    } else if (e.key === 'End') {
+                        e.preventDefault();
+                        this.showSlide(this.totalSlides - 1);
+                    } else if (e.key.toLowerCase() === 'e') {
+                        e.preventDefault();
+                        this.toggleEditMode();
+                    }
+                });
+            }
+
+            setupTouchNav() {
+                let startX = 0;
+                let startY = 0;
+
+                window.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                }, { passive: true });
+
+                window.addEventListener('touchend', (e) => {
+                    const diffX = e.changedTouches[0].clientX - startX;
+                    const diffY = e.changedTouches[0].clientY - startY;
+
+                    if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY)) {
+                        if (diffX < 0) {
+                            this.nextSlide();
+                        } else {
+                            this.prevSlide();
+                        }
+                    }
+                }, { passive: true });
+            }
+
+            setupButtonNav() {
+                const prev = document.getElementById('prevBtn');
+                const next = document.getElementById('nextBtn');
+                if (prev) prev.addEventListener('click', () => this.prevSlide());
+                if (next) next.addEventListener('click', () => this.nextSlide());
+            }
+
+            nextSlide() {
+                if (this.currentSlide < this.totalSlides - 1) {
+                    this.showSlide(this.currentSlide + 1);
+                }
+            }
+
+            prevSlide() {
+                if (this.currentSlide > 0) {
+                    this.showSlide(this.currentSlide - 1);
+                }
+            }
+
+            showSlide(index) {
+                this.currentSlide = Math.max(0, Math.min(index, this.totalSlides - 1));
+                this.slides.forEach((slide, i) => {
+                    const isActive = (i === this.currentSlide);
+                    slide.classList.toggle('active', isActive);
+                    slide.classList.toggle('visible', isActive);
+                });
+
+                if (this.counter) {
+                    this.counter.textContent = `Slide ${this.currentSlide + 1} / ${this.totalSlides}`;
+                }
+
+                if (this.progressBar) {
+                    const progress = ((this.currentSlide + 1) / this.totalSlides) * 100;
+                    this.progressBar.style.width = `${progress}%`;
+                }
+            }
+
+            setupInlineEditor() {
+                const hotzone = document.querySelector('.edit-hotzone');
+                const toggle = document.getElementById('editToggle');
+                let hideTimeout = null;
+
+                if (hotzone && toggle) {
+                    hotzone.addEventListener('mouseenter', () => {
+                        clearTimeout(hideTimeout);
+                        toggle.classList.add('show');
+                    });
+
+                    hotzone.addEventListener('mouseleave', () => {
+                        hideTimeout = setTimeout(() => {
+                            if (!this.isEditing) toggle.classList.remove('show');
+                        }, 400);
+                    });
+
+                    toggle.addEventListener('mouseenter', () => {
+                        clearTimeout(hideTimeout);
+                    });
+
+                    toggle.addEventListener('mouseleave', () => {
+                        hideTimeout = setTimeout(() => {
+                            if (!this.isEditing) toggle.classList.remove('show');
+                        }, 400);
+                    });
+
+                    hotzone.addEventListener('click', () => this.toggleEditMode());
+                    toggle.addEventListener('click', () => this.toggleEditMode());
+                }
+
+                // Restore any local edits
+                const savedData = localStorage.getItem('kozhencherry_hand_hygiene_deck_dark');
+                if (savedData) {
+                    try {
+                        const parsed = JSON.parse(savedData);
+                        Object.keys(parsed).forEach(id => {
+                            const el = document.getElementById(id);
+                            if (el) el.innerHTML = parsed[id];
+                        });
+                    } catch (e) {
+                        console.error('Failed to load local edits:', e);
+                    }
+                }
+            }
+
+            toggleEditMode() {
+                this.isEditing = !this.isEditing;
+                const toggle = document.getElementById('editToggle');
+                if (toggle) {
+                    toggle.classList.toggle('active', this.isEditing);
+                    toggle.innerHTML = this.isEditing ? '💾 Save Edits' : '✏️ Edit Text';
+                }
+
+                const editableSelectors = 'h1, h2, h3, h4, p, li, .card-title, .bmw-desc, .stat-caption';
+                const elements = document.querySelectorAll(editableSelectors);
+
+                if (this.isEditing) {
+                    elements.forEach((el, idx) => {
+                        if (!el.id) el.id = `editable-node-${idx}`;
+                        el.setAttribute('contenteditable', 'true');
+                    });
+                } else {
+                    const saveMap = {};
+                    elements.forEach(el => {
+                        el.removeAttribute('contenteditable');
+                        if (el.id) saveMap[el.id] = el.innerHTML;
+                    });
+                    localStorage.setItem('kozhencherry_hand_hygiene_deck_dark', JSON.stringify(saveMap));
+                }
+            }
+        }
+
+        // Initialize presentation on DOM ready
+        window.addEventListener('DOMContentLoaded', () => {
+            window.presentation = new SlidePresentation();
+        });
+    </script>
+</body>
+</html>

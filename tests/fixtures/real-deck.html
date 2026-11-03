@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frontend Slides Readiness Test</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Manrope:wght@400;500;700&display=swap">
+<style>
+:root {
+  --stage-bg: #0b0b0c;
+  --slide-bg: #f4efe6;
+  --ink: #14110d;
+  --accent: #d8401f;
+  --muted: #6c6358;
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Manrope', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ===== viewport-base.css ===== */
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--stage-bg, #000); }
+.deck-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--stage-bg, #000); }
+.deck-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 0 0; background: var(--slide-bg, #fff); }
+.slide { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; display: block; visibility: hidden; opacity: 0; pointer-events: none; background: var(--slide-bg, #fff); }
+.slide.active, .slide.visible { visibility: visible; opacity: 1; pointer-events: auto; z-index: 1; }
+img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+.deck-controls { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 1000; }
+@media print {
+  html, body { width: 1920px; height: auto; overflow: visible; background: #fff; }
+  .deck-viewport { position: static; overflow: visible; background: #fff; }
+  .deck-stage { position: static; width: auto; height: auto; transform: none !important; background: none; }
+  .slide { position: relative; display: block !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; width: 1920px; height: 1080px; break-after: page; page-break-after: always; }
+  .slide:last-child { break-after: auto; page-break-after: auto; }
+  .deck-controls { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+}
+/* ===== end viewport-base.css ===== */
+
+body { font-family: var(--font-body); color: var(--ink); }
+.slide { display: flex; flex-direction: column; justify-content: center; padding: 120px 140px; }
+h1 { font-family: var(--font-display); font-size: 132px; line-height: 0.95; letter-spacing: -0.03em; }
+h2 { font-family: var(--font-display); font-size: 88px; line-height: 1; letter-spacing: -0.02em; }
+p { font-size: 32px; line-height: 1.5; color: var(--muted); max-width: 1200px; }
+.rule { width: 220px; height: 10px; background: var(--accent); margin: 36px 0; }
+.eyebrow { font-size: 24px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; }
+.cols { display: flex; gap: 80px; margin-top: 56px; }
+.card { flex: 1; border-top: 3px solid var(--ink); padding-top: 24px; }
+.card h3 { font-family: var(--font-display); font-size: 48px; margin-bottom: 12px; }
+.card p { font-size: 26px; }
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.slide.visible .reveal { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+  <main class="deck-stage" id="deckStage">
+    <section class="slide active visible">
+      <p class="eyebrow reveal">Readiness Check</p>
+      <h1 class="reveal">Frontend<br>Slides</h1>
+      <div class="rule reveal"></div>
+      <p class="reveal">A three-slide smoke test for the installed skill.</p>
+    </section>
+    <section class="slide">
+      <p class="eyebrow reveal">What is verified</p>
+      <h2 class="reveal">Pipeline</h2>
+      <div class="cols">
+        <div class="card reveal"><h3>Render</h3><p>Fixed 1920x1080 stage, scalable.</p></div>
+        <div class="card reveal"><h3>Capture</h3><p>Per-slide screenshots via Playwright.</p></div>
+        <div class="card reveal"><h3>Export</h3><p>Combined into a single PDF.</p></div>
+      </div>
+    </section>
+    <section class="slide">
+      <p class="eyebrow reveal">Done</p>
+      <h2 class="reveal">Ready to build.</h2>
+      <div class="rule reveal"></div>
+      <p class="reveal">Ask for a deck and the skill takes it from here.</p>
+    </section>
+  </main>
+</div>
+<script>
+class SlidePresentation {
+  constructor() {
+    this.slides = document.querySelectorAll('.slide');
+    this.currentSlide = 0;
+    this.stage = document.getElementById('deckStage');
+    this.setupStageScale();
+    this.setupKeyboardNav();
+    this.showSlide(0);
+  }
+  setupStageScale() {
+    const scale = () => {
+      const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+      const x = (window.innerWidth - 1920 * factor) / 2;
+      const y = (window.innerHeight - 1080 * factor) / 2;
+      this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+    };
+    scale();
+    window.addEventListener('resize', scale);
+  }
+  setupKeyboardNav() {
+    window.addEventListener('keydown', (e) => {
+      if (['ArrowRight', 'ArrowDown', ' ', 'PageDown'].includes(e.key)) this.showSlide(this.currentSlide + 1);
+      if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) this.showSlide(this.currentSlide - 1);
+    });
+  }
+  showSlide(index) {
+    this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+    this.slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === this.currentSlide);
+      slide.classList.toggle('visible', i === this.currentSlide);
+    });
+  }
+}
+window.presentation = new SlidePresentation();
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Late API Deck</title>
+  <style>
+    .slide { display: none; }
+    .slide.active { display: block; }
+  </style>
+</head>
+<body>
+  <div class="slide active">One</div>
+  <div class="slide">Two</div>
+  <div class="slide">Three</div>
+  <div id="nav-label">Slide 1 / 3</div>
+  <button id="nav-next" type="button">Next</button>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+      window.presentation = {
+        currentSlide: 0,
+        showSlide: function (i) {
+          this.currentSlide = i;
+          slides.forEach(function (slide, j) {
+            slide.classList.toggle('active', j === i);
+          });
+          document.getElementById('nav-label').textContent = 'Slide ' + (i + 1) + ' / ' + slides.length;
+        },
+      };
+      window.presentation.showSlide(0);
+    });
+    document.getElementById('nav-next').addEventListener('click', function () {
+      var p = window.presentation;
+      p.showSlide(Math.min(p.currentSlide + 1, 2));
+    });
+  </script>
+</body>
+</html>

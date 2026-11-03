@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frontend Slides Readiness Test</title>
+  <style>
+    .slide { display: none; }
+    .slide.active { display: block; }
+  </style>
+</head>
+<body>
+  <div class="slide">Slide one</div>
+  <div class="slide">Slide two</div>
+  <div class="slide">Slide three</div>
+  <div class="edit-toggle">Edit</div>
+  <script>
+    window.__deckNavCount = 0;
+    const __slides = Array.from(document.querySelectorAll('.slide'));
+    window.presentation = {
+      currentSlide: 0,
+      showSlide(i) {
+        this.currentSlide = i;
+        __slides.forEach((s, j) => s.classList.toggle('active', j === i));
+      },
+    };
+    __slides[0].classList.add('active');
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') window.__deckNavCount++;
+      if (e.key === 'e') document.body.classList.add('edit-mode');
+    });
+  </script>
+</body>
+</html>
