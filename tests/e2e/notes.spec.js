@@ -19,16 +19,24 @@ async function addDeck(page, html) {
   await expect(page.locator('#import-dialog')).toBeHidden();
 }
 
+async function openExistingDeck(page) {
+  await page.click('#deck-grid .deck-card [data-action="modes"]');
+  await expect(page.locator('#present-dialog')).toBeVisible();
+  await page.click('[data-present-mode="rehearse"]');
+  await expect(page.locator('#present-view')).toBeVisible();
+  await expect(page.locator('#library-view')).toBeHidden();
+  await expect(page.locator('#notes-panel')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#notes-panel')).toBeHidden();
+}
+
 async function openDeck(page, html) {
   await openApp(page);
   await addDeck(page, html);
   const deckId = await page.locator('#deck-grid .deck-card').getAttribute('data-deck-id');
-  await page.click('#deck-grid .deck-card [data-action="open"]');
-  await expect(page.locator('#present-view')).toBeVisible();
-  await expect(page.locator('#library-view')).toBeHidden();
+  await openExistingDeck(page);
   return deckId;
 }
-
 test('N opens notes for slide 1', async ({ page }) => {
   await openDeck(page, deck3);
   const panel = page.locator('#notes-panel');
@@ -110,8 +118,7 @@ test('notes survive same-tab reload', async ({ page }) => {
 
   await page.reload();
   await page.waitForFunction(() => window.__appReady === true, null, { timeout: 10000 });
-  await page.click('#deck-grid .deck-card [data-action="open"]');
-  await expect(page.locator('#present-view')).toBeVisible();
+  await openExistingDeck(page);
   await page.keyboard.press('n');
 
   await expect(page.locator('#notes-textarea')).toHaveValue('reload note');

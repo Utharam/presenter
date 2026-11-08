@@ -1,11 +1,11 @@
 /* ===========================================
    PRESENTER SERVICE WORKER
-   Caches the app shell and built-in tour so the
-   library, presenter, notes, and tour work offline.
+   Caches the app shell, built-in tour, and speaker window so the
+   library, presenter, notes, prompt builder, and tour work offline.
    User decks live in IndexedDB, not here.
    =========================================== */
 
-const CACHE = 'presenter-v1';
+const CACHE = 'presenter-v2';
 
 const ASSETS = [
   '/',
@@ -17,7 +17,11 @@ const ASSETS = [
   '/src/library.js',
   '/src/presenter.js',
   '/src/bridge.js',
+  '/src/prompt-builder.js',
   '/decks/about-presenter.html',
+  '/speaker.html',
+  '/speaker.css',
+  '/speaker.js',
   '/icons/icon.svg',
   '/icons/icon-192.png',
   '/icons/icon-512.png',

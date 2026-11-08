@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0c0e">
+  <title>Presenter — Speaker view</title>
+  <link rel="stylesheet" href="/speaker.css">
+</head>
+<body>
+  <header class="sp-head">
+    <div class="sp-brand">
+      <span class="sp-mark" aria-hidden="true"></span>
+      <span>Presenter</span>
+      <span class="sp-mode">Speaker view</span>
+    </div>
+    <button type="button" id="sp-close" class="sp-close" aria-label="Close speaker view">Close</button>
+  </header>
+
+  <main class="sp-main">
+    <div class="sp-top">
+      <div>
+        <span class="sp-label">Slide</span>
+        <strong id="sp-counter" class="sp-counter">1 / 1</strong>
+      </div>
+      <div class="sp-clock">
+        <span class="sp-label" id="sp-clock-label">Elapsed</span>
+        <strong id="sp-timer" class="sp-timer">00:00</strong>
+        <button type="button" id="sp-timer-toggle" class="sp-mini">Pause</button>
+        <button type="button" id="sp-timer-reset" class="sp-mini">Reset</button>
+      </div>
+    </div>
+
+    <h1 id="sp-title" class="sp-title">Waiting for the deck</h1>
+
+    <section class="sp-block">
+      <h2>Speaker notes · now</h2>
+      <div id="sp-deck-notes" class="sp-notes">No deck notes for this slide.</div>
+    </section>
+
+    <section class="sp-block">
+      <h2>Scratch notes · now <span id="sp-save" class="sp-save">Saved</span></h2>
+      <textarea id="sp-scratch" class="sp-scratch" spellcheck="false" aria-label="Notes for the current slide" placeholder="Type notes for this slide…"></textarea>
+    </section>
+
+    <section class="sp-block sp-next">
+      <h2>Next slide</h2>
+      <div id="sp-next-notes" class="sp-notes sp-muted">No note for the next slide.</div>
+    </section>
+
+    <p class="sp-hint">Keep this window here. Move the Presenter deck to the projector, then press F.</p>
+  </main>
+
+  <footer class="sp-controls">
+    <button type="button" id="sp-first">First</button>
+    <button type="button" id="sp-prev" aria-label="Previous slide">←</button>
+    <button type="button" id="sp-next" aria-label="Next slide">Next →</button>
+    <button type="button" id="sp-last">Last</button>
+  </footer>
+
+  <script src="/speaker.js"></script>
+</body>
+</html>

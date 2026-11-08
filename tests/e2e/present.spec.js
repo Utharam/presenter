@@ -206,14 +206,41 @@ test('ctrl+drag pans a zoomed deck', async ({ page }) => {
   expect(transform).toMatch(/translate\(/);
 });
 
+test('H + arrow keys pan a zoomed deck without changing slides', async ({ page }) => {
+  await openDeck(page, deck3);
+  await page.click('#zoom-in-btn');
+  await page.click('#zoom-in-btn');
+  await expect(page.locator('#zoom-level')).toHaveText('120%');
+  await page.locator('#present-viewport').focus();
+
+  await page.keyboard.down('h');
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.up('h');
+
+  const transform = await page.locator('#present-frame').evaluate((el) => el.style.transform);
+  expect(transform).toMatch(/translate\(/);
+  expect(transform).not.toContain('translate(0px, 0px)');
+  await expect(page.locator('#slide-counter')).toHaveText('1 / 3');
+
+  // H + arrows also work when focus is inside the deck iframe.
+  await page.frameLocator('#present-frame').locator('body').click();
+  await page.keyboard.down('h');
+  await page.keyboard.press('ArrowLeft');
+  await page.keyboard.up('h');
+  const afterIframe = await page.locator('#present-frame').evaluate((el) => el.style.transform);
+  expect(afterIframe).not.toBe(transform);
+  await expect(page.locator('#slide-counter')).toHaveText('1 / 3');
+});
+
 test('built-in tour opens the About deck', async ({ page }) => {
   await openApp(page);
   await page.click('#tour-btn');
   await expect(page.locator('#present-view')).toBeVisible();
   await expect(page.locator('#library-view')).toBeHidden();
-  await expect(page.locator('#slide-counter')).toHaveText('1 / 6', { timeout: 15000 });
+  await expect(page.locator('#slide-counter')).toHaveText('1 / 7', { timeout: 15000 });
   await expect(page.frameLocator('#present-frame').locator('body')).toContainText('Your decks, pinned and ready.');
 
   await page.keyboard.press('ArrowRight');
-  await expect(page.locator('#slide-counter')).toHaveText('2 / 6');
+  await expect(page.locator('#slide-counter')).toHaveText('2 / 7');
 });

@@ -1,10 +1,11 @@
 # Presenter
 
-A dead-simple, dark, read-only HTML presentation viewer. Paste or drop a
+A dead-simple, dark HTML presentation viewer. Paste or drop a
 self-contained HTML deck, keep it in a local library, and present it
-full-screen with keyboard navigation. Per-slide scratch notes last for the
-browser tab only. There is no editing, no account, no backend, no build step,
-and no network call from the app itself.
+full-screen with keyboard navigation. Speaker notes can be authored with the
+AI prompt builder, embedded in the deck, or edited per slide from the library.
+Scratch notes last for the browser tab only. There is no slide editor, no
+account, no backend, no build step, and no network call from the app itself.
 
 ## Run
 
@@ -28,9 +29,10 @@ build step. The library lives in IndexedDB in the browser that opened the app.
 
 Presenter is a PWA. Open it in Edge or Chrome over `http://127.0.0.1:4173`
 (or any secure origin) and use the **Install app** button in the footer, or
-the browser's own install control. The service worker caches the app shell and
-the built-in tour, so the library, presenter, notes, and tour keep working
-offline after the first load. User decks live in IndexedDB; a deck's own CDN
+the browser's own install control. The service worker caches the app shell,
+the built-in tour, the speaker window, and the prompt builder, so the library,
+presenter, notes, speaker view, prompt builder, and tour keep working offline
+after the first load. User decks live in IndexedDB; a deck's own CDN
 assets (fonts, images) may still need a network connection.
 
 The topbar stays product-only. Utharam is carried in the footer as
@@ -44,22 +46,74 @@ The topbar stays product-only. Utharam is carried in the footer as
   saving. The New deck tile stays in place; saved decks appear in the Recent
   decks list. Dropping an `.html` file loads it into the add sheet and never
   opens a browser tab. Dropping a `.json` file restores a backup.
-- **Present** — click a Recent decks row or its **Open** button. The deck opens
-  in a sandboxed iframe with only the status bar, progress bar, notes panel,
-  and overlays on top.
+- **Prompt** — open **Prompt** in the header, or **Guide → Build an AI prompt**.
+  Choose a slide count and optionally write a content outline and a speaker-note
+  outline for each slide. Copy the generated prompt into your LLM; it asks for
+  the slides and hidden speaker notes together. Paste the returned HTML back
+  through **Add deck**.
+- **Present** — click a Recent decks row or its **Present** button. On one
+  screen the default is **Present without notes**; on an extended display it
+  is **Present with speaker view**. The caret beside Present opens the mode
+  dialog: Present with speaker view, Present without notes, or Rehearse.
+  The deck opens in a sandboxed iframe with only the status bar, progress bar,
+  and Rehearse console. Rehearse splits the deck on the left and the console on
+  the right.
   Use the `−` / `100%` / `+` controls to zoom the deck view from 50% to 200%;
-  click the percentage to reset. Hold `Ctrl`/`Cmd` and drag to pan while
-  zoomed.
-- **Notes** — press `N` in presentation mode for a per-slide scratch pad.
-  Notes are stored in `sessionStorage`, per deck and slide, and never enter
+  click the percentage to reset. While zoomed, hold `H` and use the arrow keys
+  to pan, or hold `Ctrl`/`Cmd` and drag.
+- **Notes** — open **Notes** on a deck row to edit one field per slide, saved
+  with the deck. In **Rehearse**, the deck and presenter console split
+  left/right; `N` collapses or restores the console, and `S` opens the speaker
+  window on an extended display or this split Rehearse view on one display. The
+  console shows current and next-slide notes, an elapsed timer with pause/reset,
+  scratch text, and slide controls. In **Present without notes**, notes are ignored. Scratch
+  notes are stored in `sessionStorage`, per deck and slide, and never enter
   IndexedDB or an export.
-- **Manage** — **Export** downloads the whole library as JSON; **Import**
-  restores a JSON backup. **Delete** removes a deck after confirmation.
+- **Manage** — **Export** downloads the whole library as JSON, including
+  speaker notes; **Import** restores a JSON backup. **Delete** removes a deck
+  after confirmation.
 - **Guide** — click **Guide** in the header for the quick guide, key reference,
-  zoom/pan instructions (`Ctrl`/`Cmd` + drag while zoomed), and a short prompt
-  for asking your LLM to generate a single-file HTML deck.
-- **Tour** — click **Tour** in the header to present the built-in six-slide
+  zoom/pan instructions (`H` + arrows or `Ctrl`/`Cmd` + drag while zoomed), the
+  speaker-notes
+  contract, and a button that opens the AI prompt builder.
+- **Tour** — click **Tour** in the header to present the built-in seven-slide
   "About Presenter" deck. The tour is not added to your library.
+
+## Speaker notes in decks
+
+The canonical authoring form is one hidden block inside each slide:
+
+```html
+<aside class="speaker-notes" data-speaker-notes hidden>
+  Open with the promise. Pause after the second frame.
+</aside>
+```
+
+The bridge also accepts older `aside.notes`, `.notes`, `.slide-notes`, or
+`data-notes` markers. It reads the notes as plain text and sends them to
+Rehearse or the speaker window. Presenter never executes note markup and hides
+the canonical block defensively.
+
+**Three ways to create notes**
+
+- **AI prompt builder** — **Prompt** in the header generates a copyable prompt
+  with the exact slide and hidden-notes contract. The AI writes slides and notes
+  together; you paste the returned HTML back.
+- **Library Notes editor** — the **Notes** action on a deck row gives one field
+  per slide. Edits save with the deck in IndexedDB, override embedded notes for
+  that slide, and are included in Export/Import.
+- **Deck HTML** — write the hidden `aside` yourself or include it in the deck
+  you paste.
+
+Notes are optional. The presentation mode decides whether they are used:
+Rehearse shows the split deck + console, speaker view puts them in the laptop
+window, and Present without notes ignores them. The separate scratch pad is
+session-only and never enters the library or a backup.
+
+**Speaker view requires an extended display.** If the laptop and projector are
+mirrored, notes would be visible to the room; the app deliberately does not
+offer speaker view in that setup. It also does not switch Windows between
+Mirror and Extend. On one display, `S` opens the split Rehearse view instead.
 
 ### Keys
 
@@ -69,7 +123,9 @@ The topbar stays product-only. Utharam is carried in the footer as
 | `â†`, `â†‘`, `PageUp` | Previous slide |
 | `Home` / `End` | First / last slide |
 | `F` | Toggle fullscreen |
-| `N` | Toggle the notes panel |
+| `N` | Rehearse: toggle the split console. Speaker view: focus/reopen the speaker window. |
+| `S` | Speaker view on an extended display; split Rehearse view on one display |
+| `H` + arrows | Pan while zoomed |
 | `?` | Toggle the shortcuts overlay |
 | `Esc` | Close notes (then shortcuts), then exit presentation and fullscreen |
 
@@ -81,9 +137,9 @@ strategy, navigation keys are left to the page (scrolling still works).
 
 The library is local to one browser profile, not synced anywhere. Clearing
 site data, using a different browser/profile, or browser storage eviction can
-lose every deck. Export JSON regularly and keep a copy outside the browser.
-Notes are intentionally disposable: they disappear when the tab closes and
-are not part of a backup.
+lose every deck and every library-edited speaker note. Export JSON regularly
+and keep a copy outside the browser. Library speaker notes are included in the
+export; scratch notes are intentionally disposable and are not.
 
 ## Security model
 
@@ -103,8 +159,8 @@ Decks are untrusted documents.
   a hostile deck can both click a fragment link and forge a
   `presenter:link` message.
 - **Read-only:** the bridge hides common edit affordances, adds
-  `body.presenter-readonly`, and swallows plain `E` and `Ctrl/Cmd+S` inside
-  the deck.
+  `body.presenter-readonly`, and swallows plain `E`, plain `S` (speaker-view
+  request), and `Ctrl/Cmd+S` inside the deck.
 - **Network:** app code makes no external requests and all app assets are
   local. A deck may load its own CDN assets (for example Google Fonts); those
   are the deck's requests, not the app's. The Utharam credit link in the
@@ -118,15 +174,23 @@ requests.
 ## Limitations
 
 - Desktop Chromium/Edge only; no mobile or touch navigation.
-- Read-only: deck editing, annotations, saved notes, thumbnails, speaker view,
-  auto-advance, and PDF/PPTX export are out of scope.
+- No slide-content editor: speaker notes are the only editable deck metadata.
+  Annotations, thumbnails, auto-advance, and PDF/PPTX export are out of scope.
 - Decks with no `.slide` elements and at most one `<section>` use the
   `single` strategy: the page renders as-is with the counter, progress bar,
   and navigation disabled. Slides created only after load may also be seen
   as `single`.
-- Notes are session-only and die with the tab. They survive a same-tab reload
-  but not a new tab, a new browser session, or an export/import in another
-  browser profile.
+- The library Notes editor maps static `.slide`/`section` markup. A deck that
+  builds its slide list at runtime may show one editor row even though the
+  presenter discovers more slides; the AI prompt and normal static decks are
+  unaffected.
+- Scratch notes are session-only and die with the tab. They survive a same-tab
+  reload but not a new tab, a new browser session, or an export/import in
+  another browser profile. Deck-authored and library speaker notes persist.
+- Speaker view requires an extended display. Mirrored or single-screen setups
+  use the split Rehearse view (`S`) instead; there is no second-device notes
+  server. There are no visual thumbnail previews in speaker view, only controls
+  and notes.
 - Relative links in a deck have no meaningful base URL once the HTML is
   stored; prefer absolute `http(s)` links.
 - If IndexedDB is unavailable, the app falls back to an in-memory library for
@@ -142,7 +206,9 @@ npm run test:e2e  # Playwright; starts the static server on port 4173
 ```
 
 Playwright uses a desktop Chrome viewport. The acceptance test adds the real
-deck fixture through the dialog and walks SPEC criteria 1-14. It blocks the
+deck fixture through the dialog and walks SPEC criteria 1-9. The speaker tests
+walk criteria 15-16; the prompt-builder and notes-editor tests cover criteria
+17-19. The acceptance test blocks the
 fixture's external Google Fonts stylesheet so the suite is deterministic
 offline; that one deck-owned net error is the only console error it filters.
 Any app-origin console error or uncaught page error fails the test. To rerun
@@ -156,24 +222,30 @@ npx playwright test tests/e2e/acceptance.spec.js --repeat-each=2
 ## File map
 
 ```
-index.html                    app shell: start screen, add dialog, present view, notes, guide
+index.html                    app shell: start screen, add/prompt/notes dialogs, present view, guide
 styles.css                    dark tokens, start screen, recent rows, presentation chrome, dialogs
 package.json                  scripts and the @playwright/test pin
 playwright.config.js          Playwright config; webServer on 127.0.0.1:4173
 scripts/serve.mjs             static file server, MIME map, no-store, traversal guard
-src/app.js                    entry point: start screen, recent rows, dialogs, drops, toasts
-src/presenter.js              sandboxed blob iframe, fullscreen, notes, keyboard, links
-src/bridge.js                 injected deck bridge: slide discovery, nav, read-only, messages
-src/library.js                IndexedDB CRUD, export/import, in-memory fallback
+src/app.js                    entry point: start screen, recent rows, prompt builder, notes editor
+src/presenter.js              sandboxed blob iframe, modes, console, speaker sync, keyboard, links
+src/bridge.js                 injected deck bridge: discovery, nav, canonical notes, read-only, messages
+src/library.js                IndexedDB CRUD, export/import of decks + speaker notes, memory fallback
+src/prompt-builder.js         pure LLM prompt contract for slides + hidden speaker notes
 src/core.js                   pure helpers: title, bridge injection, notes key, size limit
 tests/unit/core.test.js       node:test unit tests
+tests/unit/prompt-builder.test.js prompt builder unit tests
 tests/e2e/*.spec.js           Playwright: smoke, bridge, library, UI, present, notes,
-                              polish, acceptance, PWA
+                              prompt builder, notes editor, polish, acceptance, speaker, PWA
 tests/fixtures/               deck fixtures and bridge/library harnesses
 tests/fixtures/real-deck.html unmodified 3-slide frontend-slides sample deck
 tests/fixtures/deck-late-api.html deck that builds its presentation API on DOMContentLoaded
 tests/fixtures/hand-hygiene.html real 10-slide deck that reads localStorage and initializes late
-decks/about-presenter.html      built-in six-slide product tour served by the Tour button
+tests/fixtures/deck-notes.html deck with per-slide speaker notes for the speaker-view tests
+decks/about-presenter.html      built-in seven-slide product tour served by the Tour button
+speaker.html / speaker.css / speaker.js
+                              separate speaker window: notes, timer, next, scratch
+tests/e2e/speaker.spec.js     one-screen default, mode dialog, speaker sync
 manifest.webmanifest          PWA manifest, standalone display, PNG/SVG icons
 sw.js                         service worker: app-shell + tour cache, offline fallback
 icons/                        PWA icons (192, 512, maskable, Apple touch) and favicon

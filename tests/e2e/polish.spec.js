@@ -18,14 +18,24 @@ async function addDeck(page, html, title) {
   await expect(page.locator('#import-dialog')).toBeHidden();
 }
 
-async function openDeck(page, html, title) {
+async function openDeck(page, html, title, mode = 'plain') {
   await openApp(page);
   await addDeck(page, html, title);
+  if (mode === 'rehearse') {
+    await page.click('#deck-grid .deck-card [data-action="modes"]');
+    await expect(page.locator('#present-dialog')).toBeVisible();
+    await page.click('[data-present-mode="rehearse"]');
+    await expect(page.locator('#present-view')).toBeVisible();
+    await expect(page.locator('#library-view')).toBeHidden();
+    await expect(page.locator('#notes-panel')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#notes-panel')).toBeHidden();
+    return;
+  }
   await page.click('#deck-grid .deck-card [data-action="open"]');
   await expect(page.locator('#present-view')).toBeVisible();
   await expect(page.locator('#library-view')).toBeHidden();
 }
-
 test('edit shortcut is dead in-app', async ({ page }) => {
   await openDeck(page, deck3);
 
@@ -124,7 +134,7 @@ test('shortcuts overlay', async ({ page }) => {
 });
 
 test('Esc peels notes, then shortcuts, then fullscreen/exit', async ({ page }) => {
-  await openDeck(page, deck3);
+  await openDeck(page, deck3, undefined, 'rehearse');
   const dialog = page.locator('#shortcuts-dialog');
   const notes = page.locator('#notes-panel');
 

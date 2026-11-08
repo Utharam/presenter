@@ -151,7 +151,7 @@ components:
 
 The app is a charcoal drafting table in a dark rehearsal room. Decks are storyboard frames pinned to the wall, numbered in the margin and held by tape; the only warm light is a single gold work lamp. The interface is deliberately closer to a director's cue sheet than to a dashboard: precise linework, honest materials, and handwritten marginalia only where a person would actually write a note.
 
-The system serves an Operate surface, so familiarity and keyboard speed outrank expression. The front page is a calm, professional launcher: a blank 16:9 New deck tile and a Recent decks list. The storyboard world lives in the deck thumbnails, frame numbers, taped dialogs, notes card, and the built-in tour. The presentation stage itself is pure black and carries no decoration beyond the counter, the progress rule, and the notes card.
+The system serves an Operate surface, so familiarity and keyboard speed outrank expression. The front page is a calm, professional launcher: a blank 16:9 New deck tile and a Recent decks list. The storyboard world lives in the deck thumbnails, frame numbers, taped dialogs, the Rehearse console, and the built-in tour. The presentation stage itself is pure black and carries no decoration beyond the counter, the progress rule, and the split console.
 
 **Key Characteristics:**
 - Charcoal ground with a faint 32px drafting grid and a restrained gold pool of light.
@@ -219,15 +219,15 @@ A near-black drafting palette with one warm work light and one cue red for destr
 
 ## Layout
 
-The shell is a top bar over a library rail. The bar uses a `1fr auto` composition: wordmark and supporting line on the left; Add deck, Import, and Export on the right. The library is a responsive grid of frames with `repeat(auto-fill, minmax(260px, 1fr))`, a 22px gap, and 24–72px page gutters.
+The shell is a top bar over a library rail. The bar uses a `1fr auto` composition: wordmark and supporting line on the left; Add deck, Import, Export, Tour, Prompt, and Guide on the right. The library is a two-column start screen: a New deck tile and a scannable Recent decks list, with Present, mode caret, Notes, and Delete on each row.
 
-The topbar is product-only: wordmark, tagline, and the Add/Import/Export/Tour/Guide actions. The maker lives in a footer below the start screen: a small crosshair, "an Utharam tool," a quiet `utharam.in` link, and an Install app button that appears when the browser reports installability. The start screen is a two-column grid: a 460px New deck tile on the left and a Recent decks list on the right. The tile is a blank 16:9 stage preview with a plus, the words "New deck," a paste/drop subtitle, and a Create a deck action. The recent list is a set of scannable rows, each with a 16:9 thumbnail, mono frame number, title, date/size, and Open/Delete actions. Adding a deck never removes the New deck tile. The add sheet is a centered 720px dialog; the guide and shortcut sheets use the same taped language. Presentation is a full-viewport black stage with the deck letterboxed inside; the status bar sits at the bottom edge and the notes card floats above it. Below 760px the start columns stack and thumbnail frame labels are hidden.
+The topbar is product-only: wordmark, tagline, and the Add/Import/Export/Tour/Prompt/Guide actions. The maker lives in a footer below the start screen: a small crosshair, "an Utharam tool," a quiet `utharam.in` link, and an Install app button that appears when the browser reports installability. The start screen is a two-column grid: a 460px New deck tile on the left and a Recent decks list on the right. The tile is a blank 16:9 stage preview with a plus, the words "New deck," a paste/drop subtitle, and a Create a deck action. The recent list is a set of scannable rows, each with a 16:9 thumbnail, mono frame number, title, date/size, and Present, mode caret, Notes, and Delete actions. Adding a deck never removes the New deck tile. The presentation mode dialog is a 700px taped sheet with three mode rows and a display-status line. Presenting opens either the deck alone, a split Rehearse stage with the deck left and presenter console right, or the deck plus a separate speaker window. The add sheet is a centered 720px dialog; the guide and shortcut sheets use the same taped language. Presentation is a full-viewport black stage. Present without notes and speaker view keep the deck full-stage; Rehearse splits the stage into a left deck and a right presenter console, with the status bar at the bottom of the deck pane. Below 760px the start columns stack and thumbnail frame labels are hidden.
 
 At 760px and below the top bar stacks, the empty sheet becomes one column, and frames remain full-width. The product is desktop-first; the narrow layout exists to avoid horizontal overflow, not as a mobile product.
 
 ## Elevation & Depth
 
-The system is flat at rest. Frames use a 1px border, a dashed inner guide, and a subtle top-light gradient; no shadow is needed to establish hierarchy. Depth appears only as a response to state: a soft lift on frame hover, a deep soft shadow under dialogs and the notes card, and a small lift on toasts.
+The system is flat at rest. Frames use a 1px border, a dashed inner guide, and a subtle top-light gradient; no shadow is needed to establish hierarchy. Depth appears only as a response to state: a soft lift on frame hover, a deep soft shadow under dialogs, and a small lift on toasts.
 
 ### Shadow Vocabulary
 - **Frame hover** (`0 18px 42px rgba(0, 0, 0, 0.38)`): The only shadow on a library frame, paired with a 3px lift.
@@ -239,7 +239,7 @@ The system is flat at rest. Frames use a 1px border, a dashed inner guide, and a
 
 ## Shapes
 
-Frames use a 10px radius; controls use 4–6px; the notes card uses 3px to read as a card rather than a panel. Borders are 1px. Recurring geometry: four L-shaped corner ticks, a dashed inner guide inset 6px, a strip of tape at the top edge, a gold 1px margin rule on the notes card, and a 2px progress rule with a gold fill.
+Frames use a 10px radius; controls use 4–6px; the Rehearse console is a flush right-hand panel with a 1px left border. Borders are 1px. Recurring geometry: four L-shaped corner ticks, a dashed inner guide inset 6px, a strip of tape at the top edge of dialogs, a 2px gold inset focus edge on the scratch field, and a 2px progress rule with a gold fill.
 
 The form language is drafted rather than rounded-soft: rectangles with visible corners, registration marks, and ruled lines. There are no nested cards; a frame contains content, not another frame.
 
@@ -280,20 +280,36 @@ The form language is drafted rather than rounded-soft: rectangles with visible c
 
 ### Guide Dialog
 - **Style:** A taped 800px sheet with a five-step list on the left, each step marked by a gold outlined circle, and a key reference on the right behind a 1px dashed rule.
-- **Behavior:** Opens from the header Guide button; includes navigation, notes, shortcuts, zoom, `Ctrl`/`Cmd` + drag panning, and a copyable LLM prompt for generating a single-file deck. The in-presentation `?` button still opens the compact shortcut overlay.
+- **Behavior:** Opens from the header Guide button; includes navigation, notes, shortcuts, zoom, `Ctrl`/`Cmd` + drag panning, the canonical hidden speaker-notes contract, and a **Build an AI prompt** button. The in-presentation `?` button still opens the compact shortcut overlay.
 
 ### Zoom Controls
 - **Style:** A quiet mono group in the presentation status bar: `−`, a `100%` reset button, and `+`.
-- **Behavior:** Scales the rendered deck view from 50% to 200%; the app chrome never scales with it. Holding `Ctrl`/`Cmd` reveals a hand surface for dragging the zoomed deck. Clicking the percentage resets zoom and pan.
+- **Behavior:** Scales the rendered deck view from 50% to 200%; the app chrome never scales with it. Holding `H` and using the arrow keys pans the zoomed deck by 64px per press; holding `Ctrl`/`Cmd` reveals a hand surface for dragging. Clicking the percentage resets zoom and pan.
 
 ### App Footer
 - **Style:** A 1px top rule, 48px above, with a small gold crosshair and "an Utharam tool" on the left. The right side carries a quiet dotted `utharam.in` link and an optional **Install app** button.
 - **Behavior:** The Install button is hidden until `beforeinstallprompt` fires; it calls `prompt()` and hides after the choice. The link opens `https://utharam.in` in a new tab with `noopener noreferrer`.
 
-### Notes Card
-- **Style:** Raised Frame surface, 3px radius, 1px Graphite Border, two tape strips, a gold 1px margin rule, and 24px ruled lines.
-- **Label:** Mono gold `Slide 1` and a handwriting `Session only` hint.
-- **Behavior:** A labelled `role="dialog"` that opens over the stage, focuses the transparent textarea, and restores focus to the viewport on close.
+### Presentation Mode Dialog
+- **Style:** A taped 700px sheet with a display-status strip and three full-width mode rows. Each row has a drawn monitor/notes icon, a title, a one-line explanation, and a right-aligned status tag.
+- **Behavior:** One display recommends **Present without notes** and disables **Present with speaker view** with "Needs second display." Rehearse is always available and marked Practice. Clicking a row starts that mode.
+
+### Speaker Window
+- **Style:** A compact dark control surface: deck title, slide counter, elapsed timer, current speaker notes, editable scratch notes, next-slide speaker notes, and First/Prev/Next/Last controls. No visual slide thumbnails.
+- **Behavior:** Opens on an extended display, including from `S` while focus is inside the deck. Syncs through BroadcastChannel; no backend. The deck window keeps its Rehearse console hidden. A hint tells the presenter to keep the speaker window on the laptop and move the deck to the projector. A blocked popup leaves the deck without notes.
+
+### Rehearse Console
+- **Style:** A full-height right-hand console with a Graphite Border on its left, current speaker notes, a quieter next-slide block, a mono elapsed timer with pause/reset, a ruled scratch textarea with a 2px gold inset focus edge, and a bottom row of First/Prev/Next/Last controls with Next in Work-Light Gold.
+- **Label:** Mono gold `Slide 1`, a mono timer, and a quiet mono `REHEARSAL` status with a gold dot. The scratch section has a muted label and `Session only` meta.
+- **Behavior:** Only available in Rehearse or the one-display `S` split. The console occupies the right pane, opens automatically with the deck without stealing keyboard focus; `N` or a click focuses the scratch textarea, and closing restores focus to the deck. An empty slide says “No speaker notes for this slide.” Speaker notes are text; never HTML. Library notes override embedded notes. `N` collapses the console back to the full deck.
+
+### AI Prompt Builder
+- **Style:** A taped 780px sheet. A deck brief, a slide count and density row, speaker-note guidance, a scrollable stack of per-slide outline rows, and a read-only mono prompt output with a gold Copy action.
+- **Behavior:** Opens from the header **Prompt** button or Guide. Rows follow the slide count and preserve entered outlines. The prompt combines the chosen density with fixed-stage, max-2-box, type-scale, motion, style-innovation, and self-check rules, and asks for the canonical hidden speaker-notes block in every slide. Presenter never calls an LLM; the user copies the prompt out.
+
+### Speaker Notes Editor
+- **Style:** A taped 760px sheet with a scrollable list of slide rows: a mono gold `Slide N` label and a ruled textarea. A quiet status line, **Use deck notes**, and a primary **Done** action.
+- **Behavior:** Opens from the **Notes** action on a library row. One field per static slide, pre-filled from embedded notes or existing library overrides. Autosaves into the deck record; library notes override embedded notes. Empty is a valid note. Included in export/import.
 
 ### Presentation Status
 - **Style:** A bottom bar over pure black: mono counter at the left, a taped NOTE badge when a note exists, and quiet `?` and Exit controls at the right. A 2px progress rule with a gold fill runs along the bottom edge.
@@ -307,12 +323,16 @@ The form language is drafted rather than rounded-soft: rectangles with visible c
 ### Do:
 - **Do** keep the New deck tile and Recent decks list as the first view; adding a deck never removes the tile.
 - **Do** accept a file drop anywhere on the library page and show the drop overlay.
-- **Do** keep the presentation stage pure black; only the status bar and notes card may overlay the deck.
+- **Do** keep the presentation stage pure black; Rehearse splits the deck and console instead of overlaying the slide.
 - **Do** use the 2px gold focus ring on every real control, with 2px offset.
 - **Do** keep the topbar product-only and the Utharam credit in the footer lockup.
+- **Do** default one display to Present without notes; offer speaker view only on an extended display.
+- **Do** make Rehearse a left-deck/right-console split with current/next notes, timer, scratch, and controls; never show notes in Present without notes.
+- **Do** keep the AI prompt builder and notes editor plain, taped, and consistent with the add sheet; they are authoring tools, not a slide editor.
+- **Do** treat `S` as speaker view: speaker window on an extended display, split Rehearse view on one display.
 - **Do** keep the hand face for marginalia and the mono face for measurements.
 - **Do** use soft, offset shadows only for state and overlays.
-- **Do** preserve the recent-row anatomy: frame number, 16:9 thumbnail, title, mono metadata, Open/Delete.
+- **Do** preserve the recent-row anatomy: frame number, 16:9 thumbnail, title, mono metadata, Present, mode caret, Notes, and Delete.
 - **Do** give every overlay a native dialog or labelled dialog role and restore focus on close.
 
 ### Don't:

@@ -756,7 +756,7 @@
 
     .mock-row {
       display: grid;
-      grid-template-columns: 46px minmax(0, 1fr) auto;
+      grid-template-columns: 46px minmax(0, 1fr) auto auto;
       gap: 10px;
       align-items: center;
       padding: 10px 0;
@@ -952,7 +952,256 @@
     }
 
     /* ===========================================
-       SANDBOX — SCENE 05
+       REHEARSE — SCENE 05
+       =========================================== */
+    .rehearse .scene-body {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .rehearse-display {
+      font-size: 104px;
+      max-width: 680px;
+    }
+
+    .rehearse-lede {
+      margin-top: 30px;
+      max-width: 620px;
+    }
+
+    .rehearse-hand {
+      margin-top: 24px;
+      color: var(--gold);
+      font-family: var(--font-hand);
+      font-size: 44px;
+      line-height: 1.15;
+    }
+
+    .rehearse-mock {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      width: 900px;
+      height: 520px;
+      overflow: hidden;
+      border: 1px solid var(--line-strong);
+      border-radius: 10px;
+      background: var(--surface);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.5);
+      transform: rotate(-0.25deg);
+    }
+
+    .rehearse-deck {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 28px;
+      border-right: 1px solid var(--line);
+      background:
+        radial-gradient(500px 260px at 20% 10%, rgba(226, 176, 74, 0.08), transparent 70%),
+        var(--surface-2);
+    }
+
+    .rehearse-deck::before {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border: 1px dashed rgba(242, 243, 245, 0.12);
+      border-radius: 6px;
+      pointer-events: none;
+    }
+
+    .rehearse-deck-label,
+    .rehearse-caption {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .rehearse-preview {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      margin: auto 0;
+      padding: 32px;
+      overflow: hidden;
+      border: 1px solid rgba(242, 243, 245, 0.22);
+      border-radius: 4px;
+      background: linear-gradient(135deg, #0b0c0e, #171a21);
+    }
+
+    .rehearse-preview::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(90deg, transparent 0 79px, rgba(242, 243, 245, 0.035) 79px 80px);
+      pointer-events: none;
+    }
+
+    .rehearse-kicker {
+      color: var(--gold);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .rehearse-preview strong {
+      position: relative;
+      z-index: 1;
+      margin-top: 12px;
+      font-family: var(--font-display);
+      font-size: 38px;
+      font-weight: 600;
+      line-height: 1.05;
+    }
+
+    .rehearse-preview .line {
+      display: block;
+      width: 64px;
+      height: 2px;
+      margin-top: 20px;
+      background: var(--gold);
+    }
+
+    .rehearse-caption {
+      margin-top: 18px;
+    }
+
+    .rehearse-console {
+      display: flex;
+      flex-direction: column;
+      padding: 24px 24px 18px;
+      background: var(--slide-bg);
+    }
+
+    .rehearse-console-head {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+    }
+
+    .rehearse-console-head strong {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .rehearse-console-head .status {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .rehearse-console-head .status::before {
+      content: "";
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      margin-right: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      vertical-align: 1px;
+    }
+
+    .rehearse-console-block {
+      padding: 15px 0 11px;
+      border-bottom: 1px solid rgba(242, 243, 245, 0.07);
+    }
+
+    .rehearse-console-label,
+    .rehearse-scratch {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--gold);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .rehearse-console p {
+      margin-top: 7px;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .rehearse-console .next p {
+      color: var(--muted);
+    }
+
+    .rehearse-scratch {
+      margin-top: 14px;
+      color: var(--muted);
+    }
+
+    .rehearse-console .scratch {
+      flex: 1;
+      min-height: 80px;
+      margin-top: 8px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: repeating-linear-gradient(0deg, transparent 0 23px, rgba(242, 243, 245, 0.05) 23px 24px);
+    }
+
+    .rehearse-console-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .rehearse-console-controls span:last-child {
+      display: flex;
+      gap: 4px;
+    }
+
+    .console-btn {
+      padding: 5px 7px;
+      border: 1px solid var(--line-strong);
+      border-radius: 3px;
+      color: var(--ink);
+      font: inherit;
+      font-size: 9px;
+      letter-spacing: 0.04em;
+      text-transform: none;
+    }
+
+    .console-btn.gold {
+      border-color: rgba(226, 176, 74, 0.45);
+      color: var(--gold);
+    }
+
+    /* ===========================================
+       SANDBOX — SCENE 06
        =========================================== */
     .security .scene-body {
       display: grid;
@@ -1324,7 +1573,7 @@
             </div>
           </div>
           <footer class="scene-foot">
-            <span>Scene 01 / 06</span>
+            <span>Scene 01 / 07</span>
             <span>utharam.in</span>
           </footer>
         </div>
@@ -1362,7 +1611,7 @@
             </div>
           </div>
           <footer class="scene-foot">
-            <span>Scene 02 / 06</span>
+            <span>Scene 02 / 07</span>
             <span class="page-no">The idea</span>
           </footer>
         </div>
@@ -1382,7 +1631,7 @@
             <div class="start-mock reveal" style="--i:4" aria-hidden="true">
               <div class="mock-top">
                 <span class="mock-brand">Presenter</span>
-                <span class="mock-actions">Add deck · Import · Export · Tour · Guide</span>
+                <span class="mock-actions">Add deck · Import · Export · Tour · Prompt · Guide</span>
               </div>
               <div class="mock-grid">
                 <div class="mock-new">
@@ -1391,21 +1640,21 @@
                 </div>
                 <div>
                   <div class="mock-recent-head">Recent decks <span>3 decks</span></div>
-                  <div class="mock-row"><span class="mock-thumb"></span><span class="mock-row-copy"><strong>Hospital Hand Hygiene</strong><span>Nov 3, 2026 · 99.3 KB</span></span><span class="mock-open">Open</span></div>
-                  <div class="mock-row"><span class="mock-thumb"></span><span class="mock-row-copy"><strong>Readiness review</strong><span>Nov 3, 2026 · 952 B</span></span><span class="mock-open">Open</span></div>
-                  <div class="mock-row"><span class="mock-thumb"></span><span class="mock-row-copy"><strong>One-page brief</strong><span>Nov 3, 2026 · 67 B</span></span><span class="mock-open">Open</span></div>
+                  <div class="mock-row"><span class="mock-thumb"></span><span class="mock-row-copy"><strong>Hospital Hand Hygiene</strong><span>Nov 3, 2026 · 99.3 KB</span></span><span class="mock-open">Present</span><span class="mock-open">Notes</span></div>
+                  <div class="mock-row"><span class="mock-thumb"></span><span class="mock-row-copy"><strong>Readiness review</strong><span>Nov 3, 2026 · 952 B</span></span><span class="mock-open">Present</span><span class="mock-open">Notes</span></div>
+                  <div class="mock-row"><span class="mock-thumb"></span><span class="mock-row-copy"><strong>One-page brief</strong><span>Nov 3, 2026 · 67 B</span></span><span class="mock-open">Present</span><span class="mock-open">Notes</span></div>
                 </div>
               </div>
             </div>
             <div>
               <h2 class="display start-display reveal" style="--i:2">Start with a blank tile.</h2>
-              <p class="lede start-lede reveal" style="--i:3">Paste the HTML or drop the file. Recent decks stay one click away.</p>
-              <p class="hand start-hand reveal" style="--i:4">No editor. No import wizard. No scroll.</p>
-              <p class="start-note reveal" style="--i:5">A blank 16:9 tile on the left, your recent decks on the right. The whole add flow lives in one compact sheet.</p>
+              <p class="lede start-lede reveal" style="--i:3">Paste the HTML or drop the file. Or build a prompt for slides and hidden speaker notes.</p>
+              <p class="hand start-hand reveal" style="--i:4">AI writes. You present.</p>
+              <p class="start-note reveal" style="--i:5">A blank 16:9 tile on the left, your recent decks on the right. Prompt builds the deck and notes; Notes edits each slide.</p>
             </div>
           </div>
           <footer class="scene-foot">
-            <span>Scene 03 / 06</span>
+            <span>Scene 03 / 07</span>
             <span class="page-no">The start screen</span>
           </footer>
         </div>
@@ -1424,34 +1673,86 @@
           <div class="scene-body">
             <div>
               <h2 class="display keys-display reveal" style="--i:2">One press. One slide.</h2>
-              <p class="lede keys-lede reveal" style="--i:3">Even when the deck has its own keyboard handler, the bridge keeps the count honest.</p>
+              <p class="lede keys-lede reveal" style="--i:3">Even when the deck has its own keyboard handler, the bridge keeps the count honest. S opens speaker view; H + arrows pans a zoomed deck.</p>
               <div class="keyboard reveal" style="--i:4" aria-label="Keyboard shortcuts">
                 <span class="key gold">←</span><span class="key gold">→</span><span class="key wide">Space</span>
                 <span class="key">Home</span><span class="key">End</span><span class="key">F</span>
-                <span class="key">N</span><span class="key">?</span><span class="key">Esc</span>
+                <span class="key">N</span><span class="key">S</span><span class="key">H</span><span class="key">?</span><span class="key">Esc</span>
               </div>
             </div>
             <div class="notes-card reveal" style="--i:4">
-              <div class="notes-head"><strong>Slide 04</strong><span>Session only</span></div>
+              <div class="notes-head"><strong>Speaker notes</strong><span>Session only</span></div>
               <p class="notes-body">Open with the promise. Pause after the second frame.</p>
-              <p class="notes-foot">Per slide. In the tab. Never in the library.</p>
+              <p class="notes-foot">Authored notes stay in the deck. Scratch stays in the tab.</p>
             </div>
           </div>
           <footer class="scene-foot">
-            <span>Scene 04 / 06</span>
+            <span>Scene 04 / 07</span>
             <span class="page-no">The keys</span>
           </footer>
         </div>
       </section>
 
       <!-- ===========================================
-           SCENE 05 — THE SANDBOX
+           SCENE 05 — THE REHEARSAL
+           =========================================== -->
+      <section class="slide rehearse" aria-label="Rehearse with the room in view">
+        <div class="scene-bg"></div>
+        <div class="scene">
+          <header class="scene-head">
+            <span class="scene-tag">Scene 05 / The rehearsal</span>
+            <span>One screen / two panes</span>
+          </header>
+          <div class="scene-body">
+            <div>
+              <h2 class="display rehearse-display reveal" style="--i:2">Rehearse with the room in view.</h2>
+              <p class="lede rehearse-lede reveal" style="--i:3">Deck left. Notes, next slide, timer, scratch, and controls right.</p>
+              <p class="hand rehearse-hand reveal" style="--i:4">One screen. No projector required.</p>
+            </div>
+            <div class="rehearse-mock reveal" style="--i:3" aria-hidden="true">
+              <div class="rehearse-deck">
+                <div class="rehearse-deck-label"><span>The deck / 16:9</span><span>Live</span></div>
+                <div class="rehearse-preview">
+                  <span class="rehearse-kicker">Hospital hand hygiene</span>
+                  <strong>Five moments.<br>One clean room.</strong>
+                  <span class="line"></span>
+                </div>
+                <div class="rehearse-caption"><span>The room sees this</span><span>Frame 05</span></div>
+              </div>
+              <div class="rehearse-console">
+                <div class="rehearse-console-head"><strong>Slide 05</strong><span>01:26</span><span class="status">Rehearsal</span></div>
+                <div class="rehearse-console-block">
+                  <span class="rehearse-console-label">Speaker notes</span>
+                  <p>Open with the promise. Pause after the second frame.</p>
+                </div>
+                <div class="rehearse-console-block next">
+                  <span class="rehearse-console-label">Next slide</span>
+                  <p>Now make the turn to the protocol.</p>
+                </div>
+                <div class="rehearse-scratch"><span>Scratch notes</span><span>Session only</span></div>
+                <div class="scratch"></div>
+                <div class="rehearse-console-controls">
+                  <span>Slides</span>
+                  <span><span class="console-btn">First</span><span class="console-btn">Prev</span><span class="console-btn gold">Next</span><span class="console-btn">Last</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <footer class="scene-foot">
+            <span>Scene 05 / 07</span>
+            <span>The rehearsal</span>
+          </footer>
+        </div>
+      </section>
+
+      <!-- ===========================================
+           SCENE 06 — THE SANDBOX
            =========================================== -->
       <section class="slide security" aria-label="Untrusted by default">
         <div class="scene-bg"></div>
         <div class="scene">
           <header class="scene-head">
-            <span class="scene-tag">Scene 05 / The sandbox</span>
+            <span class="scene-tag">Scene 06 / The sandbox</span>
             <span>allow-scripts only</span>
           </header>
           <div class="scene-body">
@@ -1486,27 +1787,27 @@
             </div>
           </div>
           <footer class="scene-foot">
-            <span>Scene 05 / 06</span>
+            <span>Scene 06 / 07</span>
             <span class="page-no">The sandbox</span>
           </footer>
         </div>
       </section>
 
       <!-- ===========================================
-           SCENE 06 — THE CLOSE
+           SCENE 07 — THE CLOSE
            =========================================== -->
       <section class="slide close" aria-label="Built for the room">
         <div class="scene-bg"></div>
         <div class="spotlight" aria-hidden="true"></div>
         <div class="scene">
           <header class="scene-head">
-            <span class="scene-tag">Scene 06 / The close</span>
+            <span class="scene-tag">Scene 07 / The close</span>
             <span>No accounts. No uploads.</span>
           </header>
           <div class="scene-body">
             <div>
               <h2 class="display close-display reveal" style="--i:2">Built for the room.</h2>
-              <p class="hand close-hand reveal" style="--i:3">Drop a deck. Present it.</p>
+              <p class="hand close-hand reveal" style="--i:3">Write notes. Rehearse. Present.</p>
               <a class="close-link reveal" style="--i:4" href="https://utharam.in" target="_blank" rel="noopener noreferrer">utharam.in</a>
             </div>
             <div class="cover-visual">
@@ -1514,13 +1815,13 @@
                 <div class="frame-play" aria-hidden="true"></div>
                 <div class="frame-caption">
                   <strong>The deck is ready.</strong>
-                  <span>FRAME 06 / 06</span>
+                  <span>FRAME 07 / 07</span>
                 </div>
               </div>
             </div>
           </div>
           <footer class="scene-foot">
-            <span>Scene 06 / 06</span>
+            <span>Scene 07 / 07</span>
             <span>Presenter / Utharam</span>
           </footer>
         </div>
@@ -1530,7 +1831,7 @@
 
     <nav class="deck-controls" aria-label="Slide navigation">
       <button type="button" id="prevBtn" aria-label="Previous slide">←</button>
-      <span id="deckCounter" aria-live="polite" aria-atomic="true">01 / 06</span>
+      <span id="deckCounter" aria-live="polite" aria-atomic="true">01 / 07</span>
       <button type="button" id="nextBtn" aria-label="Next slide">→</button>
     </nav>
     <div class="deck-progress" aria-hidden="true"><span id="deckProgress"></span></div>

@@ -23,6 +23,10 @@ test('PWA manifest, icons, and service worker are available', async ({ page, req
     expect(response.ok()).toBe(true);
     expect(response.headers()['content-type']).toContain('image/png');
   }
+
+  for (const asset of ['/speaker.html', '/speaker.css', '/speaker.js', '/src/prompt-builder.js']) {
+    expect((await request.get(asset)).ok()).toBe(true);
+  }
 });
 
 test('service worker caches the shell for offline use', async ({ browser }) => {

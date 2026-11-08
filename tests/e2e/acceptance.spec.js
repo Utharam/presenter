@@ -63,9 +63,15 @@ test('SPEC acceptance criteria 1-9', async ({ page, context }) => {
   await expect(card).toHaveCount(1);
 
   // Criterion 2: present from a blob: iframe with only allow-scripts.
-  await card.locator('[data-action="open"]').click();
+  await card.locator('[data-action="modes"]').click();
+  await expect(page.locator('#present-dialog')).toBeVisible();
+  await page.click('[data-present-mode="rehearse"]');
   await expect(page.locator('#present-view')).toBeVisible();
   await expect(page.locator('#library-view')).toBeHidden();
+  const autoNotes = page.locator('#notes-panel');
+  await expect(autoNotes).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(autoNotes).toBeHidden();
   const frame = page.locator('#present-frame');
   await expect(frame).toHaveAttribute('sandbox', 'allow-scripts');
   expect(await frame.getAttribute('src')).toMatch(/^blob:/);
@@ -189,7 +195,13 @@ test('SPEC acceptance criteria 1-9', async ({ page, context }) => {
   await page.reload();
   await ready(page);
   await expect(page.locator('#deck-grid .deck-card')).toHaveCount(1);
-  await page.click('#deck-grid .deck-card [data-action="open"]');
+  await page.click('#deck-grid .deck-card [data-action="modes"]');
+  await expect(page.locator('#present-dialog')).toBeVisible();
+  await page.click('[data-present-mode="rehearse"]');
+  await expect(page.locator('#present-view')).toBeVisible();
+  await expect(notesPanel).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(notesPanel).toBeHidden();
   await expect(counter).toHaveText('1 / 3');
   await page.keyboard.press('ArrowRight');
   await expect(counter).toHaveText('2 / 3');
@@ -201,12 +213,17 @@ test('SPEC acceptance criteria 1-9', async ({ page, context }) => {
   try {
     await fresh.goto('/');
     await fresh.waitForFunction(() => window.__appReady === true, null, { timeout: 10000 });
-    await fresh.click('#deck-grid .deck-card [data-action="open"]');
+    await fresh.click('#deck-grid .deck-card [data-action="modes"]');
+    await expect(fresh.locator('#present-dialog')).toBeVisible();
+    await fresh.click('[data-present-mode="rehearse"]');
     await fresh.waitForFunction(
       () => document.getElementById('slide-counter').textContent === '1 / 3',
       null,
       { timeout: 10000 }
     );
+    await expect(fresh.locator('#notes-panel')).toBeVisible();
+    await fresh.keyboard.press('Escape');
+    await expect(fresh.locator('#notes-panel')).toBeHidden();
     await fresh.keyboard.press('n');
     await expect(fresh.locator('#notes-textarea')).toHaveValue('');
   } finally {

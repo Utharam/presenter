@@ -107,6 +107,13 @@ function validEntry(e) {
   );
 }
 
+// speakerNotes is optional; accepted only as an array, sanitized to strings.
+// Not an array -> the deck stays valid, the notes are simply dropped.
+function sanitizeNotes(value) {
+  if (!Array.isArray(value)) return undefined;
+  return value.map((note) => (typeof note === 'string' ? note : String(note ?? '')));
+}
+
 export async function importDecks(json) {
   let data;
   try {
@@ -126,7 +133,10 @@ export async function importDecks(json) {
       continue;
     }
     existing.add(e.id);
-    await putDeck({ id: e.id, title: e.title, html: e.html, createdAt: e.createdAt, updatedAt: e.updatedAt });
+    const deck = { id: e.id, title: e.title, html: e.html, createdAt: e.createdAt, updatedAt: e.updatedAt };
+    const notes = sanitizeNotes(e.speakerNotes);
+    if (notes) deck.speakerNotes = notes;
+    await putDeck(deck);
     imported++;
   }
   return { imported, skipped };

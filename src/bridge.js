@@ -55,6 +55,7 @@
   var discovered = false;
   var slideEls = [];
   var sectionEls = [];
+  var hHeld = false;
 
   function apiDeck() {
     var p = window.presentation;
@@ -160,6 +161,32 @@
     function (e) {
       ensureDiscovered();
       if (isEditable(e.target)) return;
+
+      if ((e.key === 'h' || e.key === 'H') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        hHeld = true;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return;
+      }
+      if (hHeld && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        var panDx = 0;
+        var panDy = 0;
+        if (e.key === 'ArrowRight') panDx = 64;
+        else if (e.key === 'ArrowLeft') panDx = -64;
+        else if (e.key === 'ArrowDown') panDy = 64;
+        else if (e.key === 'ArrowUp') panDy = -64;
+        if (panDx !== 0 || panDy !== 0) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          post({ type: 'presenter:pan', dx: panDx, dy: panDy });
+          return;
+        }
+        if (e.key === ' ' || e.key === 'PageDown' || e.key === 'PageUp' || e.key === 'Home' || e.key === 'End') {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          return;
+        }
+      }
       var plain = !e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey;
 
       // Read-only: a deck's own handlers never get these. Shift is allowed so
@@ -191,6 +218,15 @@
         e.preventDefault();
         e.stopImmediatePropagation();
         post({ type: 'presenter:fullscreen' });
+        return;
+      }
+      if ((e.key === 's' || e.key === 'S') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        // Speaker view: popup on an extended display, Rehearse console on one.
+        // The parent decides. Handled before deck navigation so the `single`
+        // strategy still gets it, and distinct from the Ctrl/Cmd+S swallow.
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        post({ type: 'presenter:speaker' });
         return;
       }
       if (e.key === '?') {
@@ -233,6 +269,17 @@
     },
     true
   );
+
+  window.addEventListener(
+    'keyup',
+    function (e) {
+      if (e.key === 'h' || e.key === 'H') hHeld = false;
+    },
+    true
+  );
+  window.addEventListener('blur', function () {
+    hHeld = false;
+  });
 
   function findAnchor(e) {
     // composedPath() reaches anchors inside shadow roots; event.target is
@@ -289,11 +336,37 @@
 
   var style = document.createElement('style');
   style.textContent =
-    '.edit-toggle, .edit-toolbar, .edit-mode, [data-edit-ui] { display: none !important; }';
+    '.edit-toggle, .edit-toolbar, .edit-mode, [data-edit-ui] { display: none !important; }' +
+    ' .speaker-notes, [data-speaker-notes] { display: none !important; }';
   (document.head || document.documentElement).appendChild(style);
   document.body.classList.add('presenter-readonly');
 
   var initialized = false;
+
+  function noteText(el) {
+    if (!el || !el.getAttribute) return '';
+    // The attribute wins over rendered text so canonical markers stay
+    // readable even if the deck styles or scripts mutate the markup.
+    var attr = el.getAttribute('data-notes');
+    if (attr !== null && attr !== undefined) return String(attr);
+    return String(el.textContent || '');
+  }
+
+  function collectNotes() {
+    var list = els.length ? els : [document.body];
+    return list.map(function (el) {
+      if (!el) return '';
+      // Canonical speaker-notes marker first, then the older conventions.
+      var note = el.querySelector('[data-speaker-notes], .speaker-notes');
+      if (!note) note = el.querySelector('aside.notes, .notes, .slide-notes, [data-notes]');
+      if (!note && el.hasAttribute && el.hasAttribute('data-notes')) note = el;
+      return noteText(note).replace(/\s+/g, ' ').trim();
+    });
+  }
+
+  function postNotes() {
+    post({ type: 'presenter:notes', notes: collectNotes() });
+  }
 
   function init() {
     if (initialized) return;
@@ -303,6 +376,7 @@
     // .slide until one carries `active`. API decks already own their render.
     if (strategy === 'slides' || strategy === 'sections' || strategy === 'api') apply();
     post({ type: 'presenter:ready', total: total, strategy: strategy });
+    postNotes();
   }
 
   if (document.readyState === 'loading') {
@@ -321,6 +395,7 @@
       discover();
       apply();
       postState();
+      postNotes();
     }
   }
 
